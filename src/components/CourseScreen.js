@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Table, Divider } from 'antd';
+import { Table, Divider, Button } from 'antd';
 import { connect } from 'dva';
 import styles from './index.css';
+import {getProtocol} from "../utils/getProtocol";
 
 const columns = [{
     title: '课程名称',
@@ -12,7 +13,7 @@ const columns = [{
     title: '课程头像',
     dataIndex: 'img_url',
     key: 'img_url',
-    render: text => <img className={styles.img} src={`http://localhost:3389` + text} />,
+    render: text => <img className={styles.img} src={getProtocol() + text} />,
 },  {
     title: '默认课程',
     dataIndex: 'is_default',
@@ -38,6 +39,9 @@ class CourseScreen extends Component {
         const { courseList } = this.props;
         return(
             <div>
+                <Button type="primary" className={styles.createBtn}>
+                    创建课程
+                </Button>
                 <Table
                     columns={columns}
                     dataSource={courseList}

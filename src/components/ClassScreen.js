@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Table, Divider, Pagination } from 'antd';
+import { Table, Divider, Button } from 'antd';
 import { connect } from 'dva';
 import styles from './index.css';
+import {getProtocol} from "../utils/getProtocol";
 
 const columns = [{
     title: '年级',
@@ -17,7 +18,7 @@ const columns = [{
     title: '课程头像',
     dataIndex: 'img_url',
     key: 'img_url',
-    render: text => <img className={styles.img} src={`http://localhost:3389` + text} />,
+    render: text => <img className={styles.img} src={getProtocol() + text} />,
 },  {
     title: '班主任',
     dataIndex: 'teacher_name',
@@ -41,10 +42,13 @@ class ClassScreen extends Component {
     render() {
         const { classList } = this.props;
         const pagination = {
-            defaultPageSize: 7
+            defaultPageSize: 6
         };
         return(
             <div>
+                <Button type="primary" className={styles.createBtn}>
+                    创建班级
+                </Button>
                 <Table
                     columns={columns}
                     dataSource={classList}

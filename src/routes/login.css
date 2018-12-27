@@ -6,14 +6,32 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+    background-color: #f8f8f8;
 }
 .loginForm {
     width: 300px;
     max-width: 300px;
-}
-.loginFormForgot {
-    float: right;
+    background: #fff;
+    padding: 40px 25px;
+    border-radius: 10px;
 }
 .loginFormButton {
     width: 100%;
+    margin-bottom: 20px;
+}
+.classManageImg {
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    border: 1px solid #d9d9d9;
+    margin-bottom: 15px;
+}
+.loginTop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.loginTitle {
+    font-weight: bold;
+    margin-bottom: 10px;
 }

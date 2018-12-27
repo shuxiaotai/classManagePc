@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './main.css';
-import { Layout, Menu, Icon} from 'antd';
+import { Layout, Menu, Icon, Button} from 'antd';
 import TemplateScreen from "../components/TemplateScreen";
 import ProjectScreen from "../components/ScheduleScreen";
 import CourseScreen from "../components/CourseScreen";
@@ -16,7 +16,6 @@ class Main extends React.Component {
     };
 
     onCollapse = (collapsed) => {
-        console.log(collapsed);
         this.setState({ collapsed });
     };
     getPathName = () => {
@@ -51,7 +50,7 @@ class Main extends React.Component {
         });
     };
     render() {
-        const { selectKey } = this.state;
+        const { selectKey, collapsed } = this.state;
         return (
             <Layout style={{ minHeight: '100vh' }}>
                 <Sider
@@ -59,7 +58,9 @@ class Main extends React.Component {
                     collapsed={this.state.collapsed}
                     onCollapse={this.onCollapse}
                 >
-                    <div className={styles.logo} >小学课堂管理系统</div>
+                    <div className={styles.logo} >
+                        <img src={require('../assets/classManage.jpg')} className={!collapsed ? styles.classManageImg :  styles.classManageImgHidden} />
+                    </div>
                     <Menu
                         theme="dark"
                         defaultSelectedKeys={['1']}
@@ -95,6 +96,12 @@ class Main extends React.Component {
                             style={{ margin: '16px 0' }}
                         >
                             {this.getPathName()}
+                            <div className={styles.userContainer}>
+                                <span className={styles.userText}>欢迎您 admin </span>
+                                <Button type="primary">
+                                    退出
+                                </Button>
+                            </div>
                         </div>
                         <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                             {

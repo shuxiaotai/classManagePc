@@ -20,6 +20,10 @@ class NormalLoginForm extends React.Component {
     return (
         <div className={styles.loginContainer}>
             <Form className={styles.loginForm}>
+                <div className={styles.loginTop}>
+                    <img src={require('../assets/classManage.jpg')} className={styles.classManageImg} />
+                    <span className={styles.loginTitle}>小学课堂管理软件管理员登录</span>
+                </div>
                 <FormItem>
                 {getFieldDecorator('userName', {
                   // rules: [{ required: true, message: '请输入用户名!' }],

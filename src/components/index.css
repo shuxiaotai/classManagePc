@@ -4,3 +4,9 @@
     height: 30px;
     border-radius: 15px;
 }
+.createBtn {
+    margin-bottom: 20px;
+}
+.templateBtn {
+    margin-left: 10px;
+}

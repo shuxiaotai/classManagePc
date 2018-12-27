@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Table, Divider } from 'antd';
+import { Table, Divider, Button } from 'antd';
 import { connect } from 'dva';
 import styles from './index.css';
+import {getProtocol} from "../utils/getProtocol";
+
 
 const columns = [{
     title: '日程名称',
@@ -12,7 +14,7 @@ const columns = [{
     title: '日程头像',
     dataIndex: 'img_url',
     key: 'img_url',
-    render: text => <img className={styles.img} src={`http://localhost:3389` + text} />,
+    render: text => <img className={styles.img} src={getProtocol() + text} />,
 },  {
     title: '默认日程',
     dataIndex: 'is_default',
@@ -38,6 +40,9 @@ class ScheduleScreen extends Component {
         const { scheduleList } = this.props;
         return(
             <div>
+                <Button type="primary" className={styles.createBtn}>
+                    创建日程
+                </Button>
                 <Table
                     columns={columns}
                     dataSource={scheduleList}

@@ -1,4 +1,5 @@
 import fetch from 'dva/fetch';
+import {getProtocol} from "../utils/getProtocol";
 
 function parseJSON(response) {
     return response.json();
@@ -22,7 +23,7 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
-    url = 'http://localhost:3389' + url;
+    url = getProtocol() + url;
     options = {
         ...options,
         headers: {
