@@ -5,3 +5,17 @@ export function fetchClassList() {
         method: 'post',
     });
 }
+export function addClass( { currentAddClass }) {
+    return request('/api/addClass', {
+        method: 'post',
+        body: JSON.stringify({
+            currentAddClass: currentAddClass
+        })
+    });
+}
+
+export function fetchMasterTeacherList() {
+    return request('/api/selectMasterTeacher', {
+        method: 'post',
+    });
+}

@@ -5,3 +5,11 @@ export function fetchStudentList() {
         method: 'post'
     });
 }
+export function addStudent( { currentAddStudent }) {
+    return request('/api/addStudent', {
+        method: 'post',
+        body: JSON.stringify({
+            currentAddStudent: currentAddStudent
+        })
+    });
+}

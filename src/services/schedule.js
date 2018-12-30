@@ -5,3 +5,12 @@ export function fetchScheduleList() {
         method: 'post'
     });
 }
+
+export function addSchedule( { currentAddSchedule }) {
+    return request('/api/addSchedule', {
+        method: 'post',
+        body: JSON.stringify({
+            currentAddSchedule: currentAddSchedule
+        })
+    });
+}

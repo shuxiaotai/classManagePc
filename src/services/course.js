@@ -5,3 +5,12 @@ export function fetchCourseList() {
         method: 'post'
     });
 }
+
+export function addCourse( { currentAddCourse }) {
+    return request('/api/addCourse', {
+        method: 'post',
+        body: JSON.stringify({
+            currentAddCourse: currentAddCourse
+        })
+    });
+}

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Table, Divider, Button } from 'antd';
+import { Table, Divider, Button, Modal, Form, Input, Switch, Upload, Icon } from 'antd';
 import { connect } from 'dva';
 import styles from './index.css';
 import {getProtocol} from "../utils/getProtocol";
 
+const FormItem = Form.Item;
 
 const columns = [{
     title: '日程名称',
@@ -31,30 +32,143 @@ const columns = [{
         </span>
     ),
 }];
+const formItemLayout = {
+    labelCol: {span: 4, offset: 0},
+    wrapperCol: {span: 18, offset: 1},
+};
 class ScheduleScreen extends Component {
+    constructor() {
+        super();
+        this.state = {
+            defaultTemplateCheck: true,
+            showUploadList: false
+        }
+    }
     componentDidMount() {
         const { fetchScheduleList } = this.props;
         fetchScheduleList();
     }
+    showModal = () => {
+        const { handleScheduleModal } = this.props;
+        handleScheduleModal(true);
+        this.props.form.resetFields();
+        this.setState({
+            defaultTemplateCheck: true,
+            showUploadList: false
+        });
+    };
+    changeImg = (e) => {
+        if (e.fileList.length === 2) {
+            e.fileList.shift();
+        }
+        this.setState({
+            showUploadList: true
+        });
+    };
+    handleOk = (e) => {
+        const { defaultTemplateCheck } = this.state;
+        const { addSchedule } = this.props;
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                values.isDefault = defaultTemplateCheck;
+                values.scheduleImg = values.scheduleImg.file;
+                addSchedule(values);
+            }
+        });
+    };
+    handleCancel = (e) => {
+        const { handleScheduleModal } = this.props;
+        handleScheduleModal(false);
+    };
+    onChange = (checked) => {
+        this.setState({
+            defaultTemplateCheck: checked
+        });
+    };
     render() {
-        const { scheduleList } = this.props;
+        const { scheduleList, scheduleModalVisible } = this.props;
+        const { getFieldDecorator } = this.props.form;
+        const fileList = [];
+        const uploadProps = {
+            action: 'http://localhost:3389/api/addSchedule',
+            listType: 'picture',
+            defaultFileList: [...fileList],
+        };
+        const pagination = {
+            defaultPageSize: 6
+        };
         return(
             <div>
-                <Button type="primary" className={styles.createBtn}>
+                <Button
+                    type="primary"
+                    className={styles.createBtn}
+                    onClick={this.showModal}
+                >
                     创建日程
                 </Button>
                 <Table
                     columns={columns}
                     dataSource={scheduleList}
                     rowKey="id"
+                    pagination={pagination}
                 />
+                <Modal
+                    title="创建日程"
+                    visible={scheduleModalVisible}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}
+                    okText="确定"
+                    cancelText="取消"
+                >
+                    <Form>
+                        <FormItem
+                            label="日程名称"
+                            {...formItemLayout}
+                        >
+                            {getFieldDecorator('scheduleName', {
+                                rules: [{ required: true, message: '请输入日程名称!' }],
+                            })(
+                                <Input
+                                />
+                            )}
+                        </FormItem>
+                        <FormItem
+                            label="日程头像"
+                            {...formItemLayout}
+                        >
+                            {getFieldDecorator('scheduleImg', {
+                                rules: [{ required: true, message: '请选择日程头像!' }],
+                            })(
+                                <Upload
+                                    {...uploadProps}
+                                    onChange={this.changeImg}
+                                    showUploadList={this.state.showUploadList}
+                                >
+                                    <Button>
+                                        <Icon type="upload" /> 上传日程头像
+                                    </Button>
+                                </Upload>
+                            )}
+                        </FormItem>
+                        <FormItem
+                            label="默认日程"
+                            {...formItemLayout}
+                        >
+                            {getFieldDecorator('isDefault', {
+                            })(
+                                <Switch defaultChecked onChange={this.onChange} />
+                            )}
+                        </FormItem>
+                    </Form>
+                </Modal>
             </div>
         )
     }
 }
 function mapStateToProps(state) {
     return {
-        scheduleList: state.schedule.scheduleList
+        scheduleList: state.schedule.scheduleList,
+        scheduleModalVisible: state.schedule.scheduleModalVisible
     }
 }
 
@@ -62,8 +176,14 @@ function mapDispatchToProps(dispatch) {
     return {
         fetchScheduleList(){
             dispatch({type: 'schedule/fetchScheduleList'});
+        },
+        addSchedule(currentAddSchedule){
+            dispatch({type: 'schedule/addSchedule', payload: { currentAddSchedule } });
+        },
+        handleScheduleModal(scheduleModalVisible){
+            dispatch({type: 'schedule/handleScheduleModal', payload: { scheduleModalVisible } });
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ScheduleScreen);
+export default Form.create()(connect(mapStateToProps, mapDispatchToProps)(ScheduleScreen));

@@ -8,3 +8,12 @@ export function fetchTemplateList( { isPraise }) {
         })
     });
 }
+
+export function addTemplate( { currentAddTemplate }) {
+    return request('/api/addTemplate', {
+        method: 'post',
+        body: JSON.stringify({
+            currentAddTemplate: currentAddTemplate
+        })
+    });
+}
