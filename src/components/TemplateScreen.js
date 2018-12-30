@@ -1,41 +1,10 @@
 import React, { Component } from 'react';
-import { Table, Divider, Button, Modal, Form, Input, Switch, Upload, Icon } from 'antd';
+import { Table, Divider, Button, Modal, Form, Input, Switch, Upload, Icon, Popconfirm } from 'antd';
 import { connect } from 'dva';
 import styles from './index.css';
 import {getProtocol} from "../utils/getProtocol";
 
 const FormItem = Form.Item;
-
-const columns = [{
-    title: '模板名称',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a>{text}</a>,
-}, {
-    title: '模板头像',
-    dataIndex: 'img_url',
-    key: 'img_url',
-    render: text => <img className={styles.img} src={getProtocol() + text} />,
-}, {
-    title: '分数',
-    dataIndex: 'score',
-    key: 'score',
-},  {
-    title: '默认点评模板',
-    dataIndex: 'is_default',
-    key: 'is_default',
-    render: text => <div>{text === '0' ? '是' : '否'}</div>,
-},{
-    title: '操作',
-    key: 'action',
-    render: (text, record) => (
-        <span>
-            <a href="javascript:;">编辑</a>
-            <Divider type="vertical" />
-            <a href="javascript:;">删除</a>
-        </span>
-    ),
-}];
 
 const formItemLayout = {
     labelCol: {span: 4, offset: 0},
@@ -54,6 +23,10 @@ class TemplateScreen extends Component {
         const { fetchTemplateList } = this.props;
         fetchTemplateList(0);
     }
+    handleDelete = (id, isPraise) => {
+        const { deleteTemplate } = this.props;
+        deleteTemplate(id, isPraise);
+    };
     changeTemplateType = () => {
         const { templateType } = this.state;
         const { fetchTemplateList } = this.props;
@@ -117,6 +90,43 @@ class TemplateScreen extends Component {
         const pagination = {
             defaultPageSize: 6
         };
+        const columns = [{
+            title: '模板名称',
+            dataIndex: 'name',
+            key: 'name',
+            render: text => <a>{text}</a>,
+        }, {
+            title: '模板头像',
+            dataIndex: 'img_url',
+            key: 'img_url',
+            render: text => <img className={styles.img} src={getProtocol() + text} />,
+        }, {
+            title: '分数',
+            dataIndex: 'score',
+            key: 'score',
+        },  {
+            title: '默认点评模板',
+            dataIndex: 'is_default',
+            key: 'is_default',
+            render: text => <div>{text === '0' ? '是' : '否'}</div>,
+        },{
+            title: '操作',
+            key: 'action',
+            render: (text, record) => (
+                <span>
+                    <a href="javascript:;">编辑</a>
+                    <Divider type="vertical" />
+                    <Popconfirm
+                        title="确认删除?"
+                        onConfirm={() => this.handleDelete(record.id, this.state.templateType)}
+                        okText="确认"
+                        cancelText="取消"
+                    >
+                        <a href="javascript:;">删除</a>
+                    </Popconfirm>
+                </span>
+            ),
+        }];
         return(
             <div style={{ position: 'relative' }}>
                 <Button type="primary"
@@ -219,7 +229,11 @@ function mapDispatchToProps(dispatch) {
         },
         handleTemplateModal(templateModalVisible){
             dispatch({type: 'template/handleTemplateModal', payload: { templateModalVisible } });
-        }
+        },
+        deleteTemplate(id, isPraise){
+            dispatch({type: 'template/deleteTemplate', payload: { id, isPraise } });
+        },
+
     }
 }
 

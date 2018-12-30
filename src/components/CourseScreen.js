@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Divider, Button, Modal, Form, Input, Switch, Upload, Icon } from 'antd';
+import { Table, Divider, Button, Modal, Form, Input, Switch, Upload, Icon, Popconfirm } from 'antd';
 import { connect } from 'dva';
 import styles from './index.css';
 import {getProtocol} from "../utils/getProtocol";
@@ -9,32 +9,7 @@ const formItemLayout = {
     labelCol: {span: 4, offset: 0},
     wrapperCol: {span: 18, offset: 1},
 };
-const columns = [{
-    title: '课程名称',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a>{text}</a>,
-}, {
-    title: '课程头像',
-    dataIndex: 'img_url',
-    key: 'img_url',
-    render: text => <img className={styles.img} src={getProtocol() + text} />,
-},  {
-    title: '默认课程',
-    dataIndex: 'is_default',
-    key: 'is_default',
-    render: text => <div>{text === '0' ? '是' : '否'}</div>,
-},{
-    title: '操作',
-    key: 'action',
-    render: (text, record) => (
-        <span>
-            <a href="javascript:;">编辑</a>
-            <Divider type="vertical" />
-            <a href="javascript:;">删除</a>
-        </span>
-    ),
-}];
+
 class CourseScreen extends Component {
     constructor() {
         super();
@@ -84,6 +59,10 @@ class CourseScreen extends Component {
             defaultTemplateCheck: checked
         });
     };
+    handleDelete = (id) => {
+        const { deleteCourse } = this.props;
+        deleteCourse(id);
+    };
     render() {
         const { courseList, courseModalVisible } = this.props;
         const { getFieldDecorator } = this.props.form;
@@ -96,6 +75,39 @@ class CourseScreen extends Component {
         const pagination = {
             defaultPageSize: 6
         };
+        const columns = [{
+            title: '课程名称',
+            dataIndex: 'name',
+            key: 'name',
+            render: text => <a>{text}</a>,
+        }, {
+            title: '课程头像',
+            dataIndex: 'img_url',
+            key: 'img_url',
+            render: text => <img className={styles.img} src={getProtocol() + text} />,
+        },  {
+            title: '默认课程',
+            dataIndex: 'is_default',
+            key: 'is_default',
+            render: text => <div>{text === '0' ? '是' : '否'}</div>,
+        },{
+            title: '操作',
+            key: 'action',
+            render: (text, record) => (
+                <span>
+                    <a href="javascript:;">编辑</a>
+                    <Divider type="vertical" />
+                    <Popconfirm
+                        title="确认删除?"
+                        onConfirm={() => this.handleDelete(record.id)}
+                        okText="确认"
+                        cancelText="取消"
+                    >
+                        <a href="javascript:;">删除</a>
+                    </Popconfirm>
+                </span>
+            ),
+        }];
         return(
             <div>
                 <Button type="primary"
@@ -180,6 +192,9 @@ function mapDispatchToProps(dispatch) {
         },
         handleCourseModal(courseModalVisible){
             dispatch({type: 'course/handleCourseModal', payload: { courseModalVisible } });
+        },
+        deleteCourse(id){
+            dispatch({type: 'course/deleteCourse', payload: { id } });
         }
     }
 }

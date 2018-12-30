@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Divider, Button, Modal, Form, Input, Select, Upload, Icon } from 'antd';
+import { Table, Divider, Button, Modal, Form, Input, Select, Upload, Icon, Popconfirm } from 'antd';
 import { connect } from 'dva';
 import styles from './index.css';
 import {getProtocol} from "../utils/getProtocol";
@@ -10,38 +10,6 @@ const formItemLayout = {
     labelCol: {span: 4, offset: 0},
     wrapperCol: {span: 18, offset: 1},
 };
-const columns = [{
-    title: '姓名',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a>{text}</a>,
-}, {
-    title: '头像',
-    dataIndex: 'avatar_url',
-    key: 'avatar_url',
-    render: text => <img className={styles.img} src={getProtocol() + text} />,
-}, {
-    title: '班级',
-    dataIndex: 'class_grade',
-    key: 'class_grade',
-    render: text => <div>{text === null ? '尚未加入班级' : text}</div>,
-},
-    {
-    title: '班级',
-    dataIndex: 'class_name',
-    key: 'class_name',
-    render: text => <div>{text === null ? '尚未加入班级' : text}</div>,
-},{
-    title: '操作',
-    key: 'action',
-    render: (text, record) => (
-        <span>
-            <a href="javascript:;">编辑</a>
-            <Divider type="vertical" />
-            <a href="javascript:;">删除</a>
-        </span>
-    ),
-}];
 class StudentScreen extends Component {
     constructor() {
         super();
@@ -86,6 +54,10 @@ class StudentScreen extends Component {
     handleChange = (value) => {
         console.log(`selected ${value}`);
     };
+    handleDelete = (id) => {
+        const { deleteStudent } = this.props;
+        deleteStudent(id);
+    };
     render() {
         const { studentList, studentModalVisible, classList } = this.props;
         const { getFieldDecorator } = this.props.form;
@@ -98,6 +70,46 @@ class StudentScreen extends Component {
         const pagination = {
             defaultPageSize: 6
         };
+        const columns = [{
+            title: '姓名',
+            dataIndex: 'name',
+            key: 'name',
+            render: text => <a>{text}</a>,
+        }, {
+            title: '头像',
+            dataIndex: 'avatar_url',
+            key: 'avatar_url',
+            render: text => <img className={styles.img} src={getProtocol() + text} />,
+        }, {
+            title: '班级',
+            dataIndex: 'class_grade',
+            key: 'class_grade',
+            render: text => <div>{text === null ? '尚未加入班级' : text}</div>,
+        },
+            {
+                title: '班级',
+                dataIndex: 'class_name',
+                key: 'class_name',
+                render: text => <div>{text === null ? '尚未加入班级' : text}</div>,
+            },{
+                title: '操作',
+                key: 'action',
+                render: (text, record) => (
+                    <span>
+                        <a href="javascript:;">编辑</a>
+                        <Divider type="vertical" />
+                        <Popconfirm
+                            title="确认删除?"
+                            onConfirm={() => this.handleDelete(record.id)}
+                            okText="确认"
+                            cancelText="取消"
+                        >
+                            <a href="javascript:;">删除</a>
+                        </Popconfirm>
+                    </span>
+                ),
+            }];
+
         return(
             <div>
                 <Button
@@ -196,6 +208,9 @@ function mapDispatchToProps(dispatch) {
         },
         fetchClassList(){
             dispatch({type: 'classModels/fetchClassList'});
+        },
+        deleteStudent(id){
+            dispatch({type: 'student/deleteStudent', payload: { id } });
         }
     }
 }

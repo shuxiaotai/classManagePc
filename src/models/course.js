@@ -28,6 +28,13 @@ export default {
                 yield put({ type: 'fetchCourseList' });
             }
         },
+        *deleteCourse({ payload }, { call, put }) {
+            let data = yield call(courseServices.deleteCourse, {id : payload.id});
+            if (data.deleteCourseSuccess) {
+                message.success('删除成功');
+                yield put({ type: 'fetchCourseList' });
+            }
+        },
     },
 
     reducers: {

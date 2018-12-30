@@ -14,3 +14,12 @@ export function addCourse( { currentAddCourse }) {
         })
     });
 }
+
+export function deleteCourse( { id }) {
+    return request('/api/deleteCourse', {
+        method: 'post',
+        body: JSON.stringify({
+            courseId: id
+        })
+    });
+}

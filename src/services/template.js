@@ -17,3 +17,12 @@ export function addTemplate( { currentAddTemplate }) {
         })
     });
 }
+
+export function deleteTemplate( { id }) {
+    return request('/api/deleteTemplate', {
+        method: 'post',
+        body: JSON.stringify({
+            templateId: id
+        })
+    });
+}

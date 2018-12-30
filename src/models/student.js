@@ -28,6 +28,13 @@ export default {
                 yield put({ type: 'fetchStudentList' });
             }
         },
+        *deleteStudent({ payload }, { call, put }) {
+            let data = yield call(studentServices.deleteStudent, {id : payload.id});
+            if (data.deleteStudentSuccess) {
+                message.success('删除成功');
+                yield put({ type: 'fetchStudentList' });
+            }
+        },
     },
 
     reducers: {

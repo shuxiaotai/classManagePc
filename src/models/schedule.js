@@ -28,6 +28,13 @@ export default {
                 yield put({ type: 'fetchScheduleList' });
             }
         },
+        *deleteSchedule({ payload }, { call, put }) {
+            let data = yield call(scheduleServices.deleteSchedule, {id : payload.id});
+            if (data.deleteScheduleSuccess) {
+                message.success('删除成功');
+                yield put({ type: 'fetchScheduleList' });
+            }
+        },
     },
 
     reducers: {

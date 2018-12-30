@@ -1,37 +1,12 @@
 import React, { Component } from 'react';
-import { Table, Divider, Button, Modal, Form, Input, Switch, Upload, Icon } from 'antd';
+import { Table, Divider, Button, Modal, Form, Input, Switch, Upload, Icon, Popconfirm } from 'antd';
 import { connect } from 'dva';
 import styles from './index.css';
 import {getProtocol} from "../utils/getProtocol";
 
 const FormItem = Form.Item;
 
-const columns = [{
-    title: '日程名称',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a>{text}</a>,
-}, {
-    title: '日程头像',
-    dataIndex: 'img_url',
-    key: 'img_url',
-    render: text => <img className={styles.img} src={getProtocol() + text} />,
-},  {
-    title: '默认日程',
-    dataIndex: 'is_default',
-    key: 'is_default',
-    render: text => <div>{text === '0' ? '是' : '否'}</div>,
-},{
-    title: '操作',
-    key: 'action',
-    render: (text, record) => (
-        <span>
-            <a href="javascript:;">编辑</a>
-            <Divider type="vertical" />
-            <a href="javascript:;">删除</a>
-        </span>
-    ),
-}];
+
 const formItemLayout = {
     labelCol: {span: 4, offset: 0},
     wrapperCol: {span: 18, offset: 1},
@@ -85,6 +60,10 @@ class ScheduleScreen extends Component {
             defaultTemplateCheck: checked
         });
     };
+    handleDelete = (id) => {
+        const { deleteSchedule } = this.props;
+        deleteSchedule(id);
+    };
     render() {
         const { scheduleList, scheduleModalVisible } = this.props;
         const { getFieldDecorator } = this.props.form;
@@ -97,6 +76,39 @@ class ScheduleScreen extends Component {
         const pagination = {
             defaultPageSize: 6
         };
+        const columns = [{
+            title: '日程名称',
+            dataIndex: 'name',
+            key: 'name',
+            render: text => <a>{text}</a>,
+        }, {
+            title: '日程头像',
+            dataIndex: 'img_url',
+            key: 'img_url',
+            render: text => <img className={styles.img} src={getProtocol() + text} />,
+        },  {
+            title: '默认日程',
+            dataIndex: 'is_default',
+            key: 'is_default',
+            render: text => <div>{text === '0' ? '是' : '否'}</div>,
+        },{
+            title: '操作',
+            key: 'action',
+            render: (text, record) => (
+                <span>
+                    <a href="javascript:;">编辑</a>
+                    <Divider type="vertical" />
+                    <Popconfirm
+                        title="确认删除?"
+                        onConfirm={() => this.handleDelete(record.id)}
+                        okText="确认"
+                        cancelText="取消"
+                    >
+                        <a href="javascript:;">删除</a>
+                    </Popconfirm>
+                </span>
+            ),
+        }];
         return(
             <div>
                 <Button
@@ -182,6 +194,9 @@ function mapDispatchToProps(dispatch) {
         },
         handleScheduleModal(scheduleModalVisible){
             dispatch({type: 'schedule/handleScheduleModal', payload: { scheduleModalVisible } });
+        },
+        deleteSchedule(id){
+            dispatch({type: 'schedule/deleteSchedule', payload: { id } });
         }
     }
 }

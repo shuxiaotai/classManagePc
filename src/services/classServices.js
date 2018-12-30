@@ -19,3 +19,12 @@ export function fetchMasterTeacherList() {
         method: 'post',
     });
 }
+
+export function deleteClass( { id }) {
+    return request('/api/deleteClass', {
+        method: 'post',
+        body: JSON.stringify({
+            classId: id
+        })
+    });
+}

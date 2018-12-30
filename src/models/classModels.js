@@ -33,6 +33,13 @@ export default {
             let data = yield call(classServices.fetchMasterTeacherList);
             yield put({ type: 'saveMasterTeacherList', payload: data });
         },
+        *deleteClass({ payload }, { call, put }) {
+            let data = yield call(classServices.deleteClass, {id : payload.id});
+            if (data.deleteClassSuccess) {
+                message.success('删除成功');
+                yield put({ type: 'fetchClassList' });
+            }
+        },
     },
 
     reducers: {

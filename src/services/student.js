@@ -13,3 +13,12 @@ export function addStudent( { currentAddStudent }) {
         })
     });
 }
+
+export function deleteStudent( { id }) {
+    return request('/api/deleteStudent', {
+        method: 'post',
+        body: JSON.stringify({
+            studentId: id
+        })
+    });
+}

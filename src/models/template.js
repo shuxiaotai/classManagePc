@@ -28,6 +28,13 @@ export default {
                 yield put({ type: 'fetchTemplateList', payload: {isPraise : payload.currentAddTemplate.isPraise ? 0 : 1} });
             }
         },
+        *deleteTemplate({ payload }, { call, put }) {
+            let data = yield call(templateServices.deleteTemplate, {id : payload.id});
+            if (data.deleteTemplateSuccess) {
+                message.success('删除成功');
+                yield put({ type: 'fetchTemplateList', payload: {isPraise : payload.isPraise ? 0 : 1} });
+            }
+        },
     },
 
     reducers: {

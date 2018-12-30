@@ -14,3 +14,12 @@ export function addSchedule( { currentAddSchedule }) {
         })
     });
 }
+
+export function deleteSchedule( { id }) {
+    return request('/api/deleteSchedule', {
+        method: 'post',
+        body: JSON.stringify({
+            scheduleId: id
+        })
+    });
+}

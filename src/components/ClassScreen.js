@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Divider, Button,  Modal, Form, Input, Switch, Upload, Icon, Select } from 'antd';
+import { Table, Divider, Button,  Modal, Form, Input, Popconfirm, Upload, Icon, Select } from 'antd';
 import { connect } from 'dva';
 import styles from './index.css';
 import {getProtocol} from "../utils/getProtocol";
@@ -10,36 +10,7 @@ const formItemLayout = {
     labelCol: {span: 4, offset: 0},
     wrapperCol: {span: 18, offset: 1},
 };
-const columns = [{
-    title: '年级',
-    dataIndex: 'grade',
-    key: 'grade',
-    render: text => <a>{text}</a>,
-},{
-    title: '班级名称',
-    dataIndex: 'name',
-    key: 'name',
-    render: text => <a>{text}</a>,
-}, {
-    title: '课程头像',
-    dataIndex: 'img_url',
-    key: 'img_url',
-    render: text => <img className={styles.img} src={getProtocol() + text} />,
-},  {
-    title: '班主任',
-    dataIndex: 'teacher_name',
-    key: 'teacher_name',
-},{
-    title: '操作',
-    key: 'action',
-    render: (text, record) => (
-        <span>
-            <a href="javascript:;">编辑</a>
-            <Divider type="vertical" />
-            <a href="javascript:;">删除</a>
-        </span>
-    ),
-}];
+
 class ClassScreen extends Component {
     constructor() {
         super();
@@ -81,6 +52,10 @@ class ClassScreen extends Component {
             showUploadList: false
         });
     };
+    handleDelete = (id) => {
+        const { deleteClass } = this.props;
+        deleteClass(id);
+    };
     render() {
         const { classList, classModalVisible, masterTeacherList } = this.props;
         const pagination = {
@@ -93,6 +68,43 @@ class ClassScreen extends Component {
             defaultFileList: [...fileList],
         };
         const { getFieldDecorator } = this.props.form;
+        const columns = [{
+            title: '年级',
+            dataIndex: 'grade',
+            key: 'grade',
+            render: text => <a>{text}</a>,
+        },{
+            title: '班级名称',
+            dataIndex: 'name',
+            key: 'name',
+            render: text => <a>{text}</a>,
+        }, {
+            title: '课程头像',
+            dataIndex: 'img_url',
+            key: 'img_url',
+            render: text => <img className={styles.img} src={getProtocol() + text} />,
+        },  {
+            title: '班主任',
+            dataIndex: 'teacher_name',
+            key: 'teacher_name',
+        },{
+            title: '操作',
+            key: 'action',
+            render: (text, record) => (
+                <span>
+                    <a href="javascript:;">编辑</a>
+                    <Divider type="vertical" />
+                    <Popconfirm
+                        title="确认删除?"
+                        onConfirm={() => this.handleDelete(record.id)}
+                        okText="确认"
+                        cancelText="取消"
+                    >
+                        <a href="javascript:;">删除</a>
+                    </Popconfirm>
+                </span>
+            ),
+        }];
         return(
             <div>
                 <Button
@@ -209,6 +221,9 @@ function mapDispatchToProps(dispatch) {
         fetchMasterTeacherList(){
             dispatch({type: 'classModels/fetchMasterTeacherList'});
         },
+        deleteClass(id){
+            dispatch({type: 'classModels/deleteClass', payload: { id } });
+        }
     }
 }
 
