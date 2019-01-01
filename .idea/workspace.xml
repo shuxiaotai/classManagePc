@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f9be5caf-bfb0-425d-9205-aff3a2080e5d" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ClassScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ClassScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/CourseScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CourseScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ScheduleScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ScheduleScreen.js" afterDir="false" />
@@ -12,6 +13,7 @@
       <change beforePath="$PROJECT_DIR$/src/models/schedule.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/schedule.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/student.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/student.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models/template.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/models/template.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/Main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/classServices.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/classServices.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/course.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/course.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/schedule.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/schedule.js" afterDir="false" />
@@ -33,8 +35,20 @@
       <file leaf-file-name="ClassScreen.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/ClassScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="244">
-              <caret line="56" column="19" selection-start-line="56" selection-start-column="19" selection-end-line="56" selection-end-column="19" />
+            <state relative-caret-position="388">
+              <caret line="44" column="44" selection-start-line="44" selection-start-column="31" selection-end-line="44" selection-end-column="44" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="StudentScreen.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/StudentScreen.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="267">
+              <caret line="51" column="112" lean-forward="true" selection-start-line="51" selection-start-column="20" selection-end-line="51" selection-end-column="112" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -54,9 +68,19 @@
       <find>visible</find>
       <find>isPraise</find>
       <find>fetchTemplateList</find>
-      <find>fileList</find>
       <find>f</find>
       <find>defaultTemplateCheck</find>
+      <find>编辑</find>
+      <find>template</find>
+      <find>isCreate</find>
+      <find>course</find>
+      <find>fileList</find>
+      <find>getCurrentStudentClass</find>
+      <find>studentList</find>
+      <find>student</find>
+      <find>fetchCurrentCLass</find>
+      <find>handleClasstModal</find>
+      <find>handleClassModal</find>
     </findStrings>
     <replaceStrings>
       <replace>img_url</replace>
@@ -96,21 +120,21 @@
         <option value="$PROJECT_DIR$/src/components/index.css" />
         <option value="$PROJECT_DIR$/src/utils/request.js" />
         <option value="$PROJECT_DIR$/src/utils/getProtocol.js" />
-        <option value="$PROJECT_DIR$/src/routes/Main.js" />
-        <option value="$PROJECT_DIR$/src/components/TemplateScreen.js" />
-        <option value="$PROJECT_DIR$/src/models/template.js" />
         <option value="$PROJECT_DIR$/src/services/template.js" />
-        <option value="$PROJECT_DIR$/src/components/ScheduleScreen.js" />
-        <option value="$PROJECT_DIR$/src/models/schedule.js" />
-        <option value="$PROJECT_DIR$/src/components/CourseScreen.js" />
-        <option value="$PROJECT_DIR$/src/models/course.js" />
-        <option value="$PROJECT_DIR$/src/services/course.js" />
-        <option value="$PROJECT_DIR$/src/components/StudentScreen.js" />
-        <option value="$PROJECT_DIR$/src/models/student.js" />
+        <option value="$PROJECT_DIR$/src/models/template.js" />
         <option value="$PROJECT_DIR$/src/services/schedule.js" />
+        <option value="$PROJECT_DIR$/src/models/schedule.js" />
+        <option value="$PROJECT_DIR$/src/components/TemplateScreen.js" />
+        <option value="$PROJECT_DIR$/src/components/ScheduleScreen.js" />
+        <option value="$PROJECT_DIR$/src/services/course.js" />
+        <option value="$PROJECT_DIR$/src/models/course.js" />
+        <option value="$PROJECT_DIR$/src/components/CourseScreen.js" />
         <option value="$PROJECT_DIR$/src/services/student.js" />
+        <option value="$PROJECT_DIR$/src/models/student.js" />
+        <option value="$PROJECT_DIR$/src/components/StudentScreen.js" />
         <option value="$PROJECT_DIR$/src/models/classModels.js" />
         <option value="$PROJECT_DIR$/src/services/classServices.js" />
+        <option value="$PROJECT_DIR$/src/routes/Main.js" />
         <option value="$PROJECT_DIR$/src/components/ClassScreen.js" />
       </list>
     </option>
@@ -132,7 +156,7 @@
   <component name="NodeModulesDirectoryManager">
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="width" value="638" />
     <option name="height" value="800" />
   </component>
@@ -142,7 +166,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -189,6 +212,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -257,29 +281,31 @@
       <workItem from="1545907432426" duration="418000" />
       <workItem from="1545975913865" duration="424000" />
       <workItem from="1545993394871" duration="531000" />
-      <workItem from="1546058848542" duration="24027000" />
+      <workItem from="1546058848542" duration="28466000" />
+      <workItem from="1546313558888" duration="18939000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56120000" />
+    <option name="totallyTimeSpent" value="79498000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2605242" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50039715" side_tool="true" weight="0.38206896" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32965517" />
-      <window_info id="npm" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50039715" side_tool="true" weight="0.38206896" />
       <window_info anchor="bottom" id="Run" order="2" />
+      <window_info id="npm" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32965517" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49960285" weight="0.39586207" />
+      <window_info anchor="bottom" id="TypeScript" order="11" weight="0.32965517" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20889595" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49960285" weight="0.45931035" />
-      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="TypeScript" order="8" />
+      <window_info id="Favorites" order="3" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Remote Host" order="3" weight="0.32956383" />
@@ -287,8 +313,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="File Transfer" order="7" weight="0.32965517" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="File Transfer" order="10" weight="0.32965517" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -297,20 +322,20 @@
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" id="Remote Host" order="3" weight="0.32956383" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23510723" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20889595" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="TypeScript" order="12" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49960285" weight="0.45931035" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50039715" side_tool="true" weight="0.38206896" />
-      <window_info anchor="bottom" id="Version Control" order="10" weight="0.32965517" />
-      <window_info anchor="bottom" id="File Transfer" order="11" weight="0.32965517" />
+      <window_info anchor="bottom" id="TypeScript" order="11" weight="0.32965517" />
       <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49960285" weight="0.39586207" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50039715" side_tool="true" weight="0.38206896" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32965517" />
+      <window_info anchor="bottom" id="File Transfer" order="10" weight="0.32965517" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info id="Favorites" order="3" side_tool="true" />
     </layout-to-restore>
   </component>
@@ -328,10 +353,32 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/components/TemplateScreen.js">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="795">
+          <caret line="57" column="44" selection-start-line="57" selection-start-column="44" selection-end-line="57" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#2299#2316#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/template.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="46" column="63" selection-start-line="46" selection-start-column="63" selection-end-line="46" selection-end-column="63" />
+          <folding>
+            <element signature="e#0#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/TemplateScreen.js">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="300">
           <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#2299#2316#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -342,6 +389,7 @@
           <caret line="5" selection-start-line="5" selection-end-line="5" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#2299#2316#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -387,6 +435,7 @@
           <caret line="5" selection-start-line="5" selection-end-line="5" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#2299#2316#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -432,6 +481,7 @@
           <caret line="5" selection-start-line="5" selection-end-line="5" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#2299#2316#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -565,81 +615,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/routes/Main.js">
+    <entry file="file://$PROJECT_DIR$/node_modules/antd/lib/upload/Upload.d.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/TemplateScreen.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2595">
-          <caret line="28" column="6" lean-forward="true" selection-start-line="25" selection-start-column="4" selection-end-line="28" selection-end-column="6" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/services/template.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="1" lean-forward="true" selection-start-line="20" selection-end-line="27" selection-end-column="1" />
+        <state relative-caret-position="30">
+          <caret line="5" column="14" selection-start-line="5" selection-start-column="14" selection-end-line="5" selection-end-column="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/models/template.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="469">
-          <caret line="36" column="10" lean-forward="true" selection-start-line="30" selection-start-column="8" selection-end-line="36" selection-end-column="10" />
+        <state relative-caret-position="180">
+          <caret line="12" column="21" lean-forward="true" selection-start-line="11" selection-start-column="8" selection-end-line="12" selection-end-column="21" />
           <folding>
             <element signature="e#0#57#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/models/course.js">
+    <entry file="file://$PROJECT_DIR$/src/components/TemplateScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="31" column="61" selection-start-line="31" selection-start-column="49" selection-end-line="31" selection-end-column="61" />
-          <folding>
-            <element signature="e#0#53#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/services/course.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="20" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/CourseScreen.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="89">
-          <caret line="62" column="28" selection-start-line="62" selection-start-column="28" selection-end-line="62" selection-end-column="28" />
+        <state relative-caret-position="406">
+          <caret line="62" column="6" lean-forward="true" selection-start-line="56" selection-start-column="4" selection-end-line="62" selection-end-column="6" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/ScheduleScreen.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="199" column="9" selection-start-line="197" selection-start-column="8" selection-end-line="199" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#2299#2316#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/models/schedule.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="412">
-          <caret line="36" column="10" lean-forward="true" selection-start-line="30" selection-start-column="8" selection-end-line="36" selection-end-column="10" />
+        <state relative-caret-position="525">
+          <caret line="75" column="10" lean-forward="true" selection-start-line="70" selection-start-column="8" selection-end-line="75" selection-end-column="10" />
           <folding>
             <element signature="e#0#57#0" expanded="true" />
           </folding>
@@ -648,15 +655,49 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/services/schedule.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="1" lean-forward="true" selection-start-line="15" selection-start-column="1" selection-end-line="15" selection-end-column="1" />
+        <state relative-caret-position="607">
+          <caret line="43" lean-forward="true" selection-start-line="26" selection-end-line="43" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/StudentScreen.js">
+    <entry file="file://$PROJECT_DIR$/src/components/ScheduleScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="542">
-          <caret line="213" column="9" lean-forward="true" selection-start-line="211" selection-start-column="8" selection-end-line="213" selection-end-column="9" />
+        <state relative-caret-position="315">
+          <caret line="95" column="6" lean-forward="true" selection-start-line="89" selection-start-column="4" selection-end-line="95" selection-end-column="6" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models/course.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="75" column="10" lean-forward="true" selection-start-line="70" selection-start-column="8" selection-end-line="75" selection-end-column="10" />
+          <folding>
+            <element signature="e#0#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/services/template.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="607">
+          <caret line="46" lean-forward="true" selection-start-line="29" selection-end-line="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/services/course.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="577">
+          <caret line="42" column="1" lean-forward="true" selection-start-line="26" selection-end-line="42" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/CourseScreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3015">
+          <caret line="26" column="25" lean-forward="true" selection-start-line="26" selection-start-column="25" selection-end-line="26" selection-end-column="25" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
@@ -665,8 +706,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/models/student.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="36" column="10" lean-forward="true" selection-start-line="30" selection-start-column="7" selection-end-line="36" selection-end-column="10" />
+        <state relative-caret-position="180">
+          <caret line="12" column="21" lean-forward="true" selection-start-line="11" selection-start-column="8" selection-end-line="12" selection-end-column="21" />
           <folding>
             <element signature="e#0#55#0" expanded="true" />
           </folding>
@@ -675,32 +716,49 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/services/student.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" selection-start-line="16" selection-end-line="24" />
+        <state relative-caret-position="615">
+          <caret line="41" column="1" lean-forward="true" selection-start-line="25" selection-end-line="41" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/routes/Main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/services/classServices.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" column="19" selection-start-line="26" selection-start-column="19" selection-end-line="26" selection-end-column="19" />
+        <state relative-caret-position="465">
+          <caret line="31" column="16" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/models/classModels.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="36" column="59" selection-start-line="36" selection-start-column="48" selection-end-line="36" selection-end-column="59" />
+        <state relative-caret-position="244">
+          <caret line="46" column="65" selection-start-line="46" selection-start-column="48" selection-end-line="46" selection-end-column="65" />
           <folding>
             <element signature="e#0#59#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/StudentScreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="267">
+          <caret line="51" column="112" lean-forward="true" selection-start-line="51" selection-start-column="20" selection-end-line="51" selection-end-column="112" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/ClassScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="56" column="19" selection-start-line="56" selection-start-column="19" selection-end-line="56" selection-end-column="19" />
+        <state relative-caret-position="388">
+          <caret line="44" column="44" selection-start-line="44" selection-start-column="31" selection-end-line="44" selection-end-column="44" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>

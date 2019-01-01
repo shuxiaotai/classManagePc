@@ -12,7 +12,7 @@ const { Content, Footer, Sider } = Layout;
 class Main extends React.Component {
     state = {
       collapsed: false,
-      selectKey: '1',
+      selectKey: '4',
     };
 
     onCollapse = (collapsed) => {

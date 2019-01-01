@@ -23,3 +23,22 @@ export function deleteCourse( { id }) {
         })
     });
 }
+
+export function fetchCurrentCourse( { id }) {
+    return request('/api/currentCourse', {
+        method: 'post',
+        body: JSON.stringify({
+            courseId: id
+        })
+    });
+}
+
+export function editCourse( { currentEditCourse }) {
+    return request('/api/editCourse', {
+        method: 'post',
+        body: JSON.stringify({
+            currentEditCourse: currentEditCourse
+        })
+    });
+}
+

@@ -1,5 +1,6 @@
 import * as templateServices from '../services/template';
 import { message } from 'antd';
+import {getProtocol} from "../utils/getProtocol";
 
 export default {
 
@@ -7,7 +8,9 @@ export default {
 
     state: {
         templateList: [],
-        templateModalVisible: false
+        templateModalVisible: false,
+        currentTemplate: '',
+        fileList: [],
     },
 
     subscriptions: {
@@ -35,6 +38,27 @@ export default {
                 yield put({ type: 'fetchTemplateList', payload: {isPraise : payload.isPraise ? 0 : 1} });
             }
         },
+        *fetchCurrentTemplate({ payload }, { call, put }) {
+            let data = yield call(templateServices.fetchCurrentTemplate, {id : payload.id});
+            yield put({ type: 'saveCurrentTemplate', payload: data });
+            let index = data.currentTemplate['img_url'].lastIndexOf('/');
+            let imgName = data.currentTemplate['img_url'].slice(index + 1);
+            const fileList = [{
+                uid: data.currentTemplate['img_url'],
+                name: imgName,
+                status: 'done',
+                thumbUrl: getProtocol() + data.currentTemplate['img_url']
+            }];
+            yield put({ type: 'saveFileList', payload: { fileList } });
+        },
+        *editTemplate({ payload }, { call, put }) {
+            let data = yield call(templateServices.editTemplate, {currentEditTemplate : payload.currentEditTemplate});
+            yield put({ type: 'handleTemplateModal', payload: data });
+            if (data.editTemplateSuccess) {
+                message.success('修改成功');
+                yield put({ type: 'fetchTemplateList', payload: {isPraise : payload.currentEditTemplate.isPraise ? 0 : 1} });
+            }
+        },
     },
 
     reducers: {
@@ -43,6 +67,12 @@ export default {
         },
         handleTemplateModal(state, action) {
             return { ...state, templateModalVisible: action.payload.addTemplateSuccess ? !action.payload.addTemplateSuccess : action.payload.templateModalVisible};
+        },
+        saveCurrentTemplate(state, action) {
+            return { ...state, currentTemplate: action.payload.currentTemplate };
+        },
+        saveFileList(state, action) {
+            return { ...state, fileList: action.payload.fileList };
         },
     },
 

@@ -28,3 +28,21 @@ export function deleteClass( { id }) {
         })
     });
 }
+
+export function fetchCurrentClass( { id }) {
+    return request('/api/currentClass', {
+        method: 'post',
+        body: JSON.stringify({
+            classId: id
+        })
+    });
+}
+
+export function editClass( { currentEditClass }) {
+    return request('/api/editClass', {
+        method: 'post',
+        body: JSON.stringify({
+            currentEditClass: currentEditClass
+        })
+    });
+}

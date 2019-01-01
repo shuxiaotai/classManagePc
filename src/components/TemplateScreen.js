@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Divider, Button, Modal, Form, Input, Switch, Upload, Icon, Popconfirm } from 'antd';
+import { Table, Divider, Button, Modal, Form, Input, Upload, Icon, Popconfirm, Switch } from 'antd';
 import { connect } from 'dva';
 import styles from './index.css';
 import {getProtocol} from "../utils/getProtocol";
@@ -16,17 +16,14 @@ class TemplateScreen extends Component {
         this.state = {
             templateType: true,
             defaultTemplateCheck: true,
-            showUploadList: false
+            showUploadList: false,
+            isCreate: true,
         }
     }
     componentDidMount() {
         const { fetchTemplateList } = this.props;
         fetchTemplateList(0);
     }
-    handleDelete = (id, isPraise) => {
-        const { deleteTemplate } = this.props;
-        deleteTemplate(id, isPraise);
-    };
     changeTemplateType = () => {
         const { templateType } = this.state;
         const { fetchTemplateList } = this.props;
@@ -45,7 +42,8 @@ class TemplateScreen extends Component {
         this.props.form.resetFields();
         this.setState({
             defaultTemplateCheck: true,
-            showUploadList: false
+            showUploadList: false,
+            isCreate: true
         });
     };
     changeImg = (e) => {
@@ -56,15 +54,30 @@ class TemplateScreen extends Component {
             showUploadList: true
         });
     };
+    changeEditImg = (e) => {
+        const { saveFileList } = this.props;
+        if (e.fileList.length === 2) {
+            e.fileList.shift();
+        }
+        saveFileList(e.fileList);
+    };
     handleOk = (e) => {
-        const { defaultTemplateCheck, templateType } = this.state;
-        const { addTemplate } = this.props;
+        const { defaultTemplateCheck, templateType, isCreate } = this.state;
+        const { addTemplate, currentTemplate, editTemplate } = this.props;
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                values.isDefault = defaultTemplateCheck;
-                values.templateImg = values.templateImg.file;
-                values.isPraise = templateType;
-                addTemplate(values);
+                if (isCreate) {
+                    values.isDefault = defaultTemplateCheck;
+                    values.templateImg = values.templateImg.file;
+                    values.isPraise = templateType;
+                    addTemplate(values);
+                } else {
+                    values.isPraise = templateType;
+                    values.templateImg = values.templateImg[0] ? values.templateImg[0] : values.templateImg.file;
+                    values.id = currentTemplate.id;
+                    editTemplate(values);
+                    this.props.form.resetFields();
+                }
             }
         });
     };
@@ -77,13 +90,30 @@ class TemplateScreen extends Component {
             defaultTemplateCheck: checked
         });
     };
+    handleDelete = (id, isPraise) => {
+        const { deleteTemplate } = this.props;
+        deleteTemplate(id, isPraise);
+    };
+    handleEdit = (id, isPraise) => {
+        const { handleTemplateModal, fetchCurrentTemplate } = this.props;
+        fetchCurrentTemplate(id);
+        handleTemplateModal(true);
+        this.setState({
+            isCreate: false,
+            showUploadList: true
+        });
+
+    };
+    removeFileList = () => {
+        const { saveFileList } = this.props;
+        saveFileList([]);
+    };
     render() {
-        const { templateList, templateModalVisible } = this.props;
-        const { templateType } = this.state;
+        const { templateList, templateModalVisible, currentTemplate, fileList } = this.props;
+        const { templateType, isCreate } = this.state;
         const { getFieldDecorator } = this.props.form;
-        const fileList = [];
         const uploadProps = {
-            action: 'http://localhost:3389/api/addTemplate',
+            action: `${isCreate ? 'http://localhost:3389/api/addTemplate' : 'http://localhost:3389/api/editTemplate'}`,
             listType: 'picture',
             defaultFileList: [...fileList],
         };
@@ -114,7 +144,14 @@ class TemplateScreen extends Component {
             key: 'action',
             render: (text, record) => (
                 <span>
-                    <a href="javascript:;">编辑</a>
+                     <Popconfirm
+                         title="确认修改?"
+                         onConfirm={() => this.handleEdit(record.id, this.state.templateType)}
+                         okText="确认"
+                         cancelText="取消"
+                     >
+                        <a href="javascript:;">修改</a>
+                    </Popconfirm>
                     <Divider type="vertical" />
                     <Popconfirm
                         title="确认删除?"
@@ -149,7 +186,7 @@ class TemplateScreen extends Component {
                     pagination={pagination}
                 />
                 <Modal
-                    title="创建模板"
+                    title={isCreate ? '创建模板' : '修改模板'}
                     visible={templateModalVisible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
@@ -163,9 +200,9 @@ class TemplateScreen extends Component {
                         >
                             {getFieldDecorator('templateName', {
                                 rules: [{ required: true, message: '请输入模板名称!' }],
+                                initialValue: isCreate ? '' : (currentTemplate !== '' ? currentTemplate.name : '')
                             })(
-                                <Input
-                                />
+                                <Input />
                             )}
                         </FormItem>
                         <FormItem
@@ -174,16 +211,30 @@ class TemplateScreen extends Component {
                         >
                             {getFieldDecorator('templateImg', {
                                 rules: [{ required: true, message: '请选择模板图片!' }],
+                                initialValue: isCreate ? '' : (currentTemplate !== '' ? fileList : '')
                             })(
-                                <Upload
-                                    {...uploadProps}
-                                    onChange={this.changeImg}
-                                    showUploadList={this.state.showUploadList}
-                                >
-                                    <Button>
-                                        <Icon type="upload" /> 上传模板图片
-                                    </Button>
-                                </Upload>
+                                isCreate ?
+                                    (<Upload
+                                        {...uploadProps}
+                                        onChange={this.changeImg}
+                                        showUploadList={this.state.showUploadList}
+                                    >
+                                        <Button>
+                                            <Icon type="upload" /> 上传模板图片
+                                        </Button>
+                                    </Upload>)
+                                    :
+                                    (<Upload
+                                        {...uploadProps}
+                                        onChange={this.changeEditImg}
+                                        showUploadList={this.state.showUploadList}
+                                        fileList={fileList}
+                                        onRemove={this.removeFileList}
+                                    >
+                                        <Button>
+                                            <Icon type="upload" /> 修改模板图片
+                                        </Button>
+                                    </Upload>)
                             )}
                         </FormItem>
                         <FormItem
@@ -192,19 +243,23 @@ class TemplateScreen extends Component {
                         >
                             {getFieldDecorator('templateScore', {
                                 rules: [{ required: true, message: '请输入模板分数!' }],
+                                initialValue: isCreate ? '' : (currentTemplate !== '' ? currentTemplate.score : '')
                             })(
                                 <Input />
                             )}
                         </FormItem>
-                        <FormItem
-                            label="默认点评"
-                            {...formItemLayout}
-                        >
-                            {getFieldDecorator('isDefault', {
-                            })(
-                                <Switch defaultChecked onChange={this.onChange} />
-                            )}
-                        </FormItem>
+                        {
+                            isCreate ? <FormItem
+                                label="默认点评"
+                                {...formItemLayout}
+                            >
+                                {getFieldDecorator('isDefault', {
+                                })(
+                                    <Switch defaultChecked onChange={this.onChange} />
+                                )}
+                            </FormItem> : null
+                        }
+
                     </Form>
                 </Modal>
             </div>
@@ -215,7 +270,9 @@ class TemplateScreen extends Component {
 function mapStateToProps(state) {
     return {
         templateList: state.template.templateList,
-        templateModalVisible: state.template.templateModalVisible
+        templateModalVisible: state.template.templateModalVisible,
+        currentTemplate: state.template.currentTemplate,
+        fileList: state.template.fileList
     }
 }
 
@@ -233,7 +290,15 @@ function mapDispatchToProps(dispatch) {
         deleteTemplate(id, isPraise){
             dispatch({type: 'template/deleteTemplate', payload: { id, isPraise } });
         },
-
+        fetchCurrentTemplate(id){
+            dispatch({type: 'template/fetchCurrentTemplate', payload: { id } });
+        },
+        saveFileList(fileList){
+            dispatch({type: 'template/saveFileList', payload: { fileList } });
+        },
+        editTemplate(currentEditTemplate){
+            dispatch({type: 'template/editTemplate', payload: { currentEditTemplate } });
+        },
     }
 }
 

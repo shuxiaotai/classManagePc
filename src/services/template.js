@@ -26,3 +26,21 @@ export function deleteTemplate( { id }) {
         })
     });
 }
+
+export function fetchCurrentTemplate( { id }) {
+    return request('/api/currentTemplate', {
+        method: 'post',
+        body: JSON.stringify({
+            templateId: id
+        })
+    });
+}
+
+export function editTemplate( { currentEditTemplate }) {
+    return request('/api/editTemplate', {
+        method: 'post',
+        body: JSON.stringify({
+            currentEditTemplate: currentEditTemplate
+        })
+    });
+}

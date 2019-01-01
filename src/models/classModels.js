@@ -1,5 +1,6 @@
 import * as classServices from '../services/classServices';
 import {message} from "antd/lib/index";
+import {getProtocol} from "../utils/getProtocol";
 
 export default {
 
@@ -8,7 +9,9 @@ export default {
     state: {
         classList: [],
         classModalVisible: false,
-        masterTeacherList: []
+        masterTeacherList: [],
+        currentClass: '',
+        fileList: [],
     },
 
     subscriptions: {
@@ -40,6 +43,27 @@ export default {
                 yield put({ type: 'fetchClassList' });
             }
         },
+        *fetchCurrentClass({ payload }, { call, put }) {
+            let data = yield call(classServices.fetchCurrentClass, {id : payload.id});
+            yield put({ type: 'saveCurrentClass', payload: data });
+            let index = data.currentClass['img_url'].lastIndexOf('/');
+            let imgName = data.currentClass['img_url'].slice(index + 1);
+            const fileList = [{
+                uid: data.currentClass['img_url'],
+                name: imgName,
+                status: 'done',
+                thumbUrl: getProtocol() + data.currentClass['img_url']
+            }];
+            yield put({ type: 'saveFileList', payload: { fileList } });
+        },
+        *editClass({ payload }, { call, put }) {
+            let data = yield call(classServices.editClass, {currentEditClass : payload.currentEditClass});
+            yield put({ type: 'handleClassModal', payload: data });
+            if (data.editClassSuccess) {
+                message.success('修改成功');
+                yield put({ type: 'fetchClassList' });
+            }
+        },
     },
 
     reducers: {
@@ -51,6 +75,12 @@ export default {
         },
         saveMasterTeacherList(state, action) {
             return { ...state, masterTeacherList: action.payload.masterTeacherList };
+        },
+        saveCurrentClass(state, action) {
+            return { ...state, currentClass: action.payload.currentClass };
+        },
+        saveFileList(state, action) {
+            return { ...state, fileList: action.payload.fileList };
         },
     },
 

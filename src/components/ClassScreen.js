@@ -31,11 +31,22 @@ class ClassScreen extends Component {
         });
     };
     handleOk = (e) => {
-        const { addClass } = this.props;
+        const { addClass, currentClass, editClass } = this.props;
+        const { isCreate } = this.state;
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                values.classImg = values.classImg.file;
-                addClass(values);
+                if (isCreate) {
+                    values.classImg = values.classImg.file;
+                    addClass(values);
+                }else {
+                    values.id = currentClass.id;
+                    values.classImg = values.classImg[0] ? values.classImg[0] : values.classImg.file;
+                    if (values.masterTeacher === currentClass['teacher_name']){
+                        values.masterTeacher = currentClass['teacher_id'].toString();
+                    }
+                    editClass(values);
+                    this.props.form.resetFields();
+                }
             }
         });
     };
@@ -56,12 +67,34 @@ class ClassScreen extends Component {
         const { deleteClass } = this.props;
         deleteClass(id);
     };
+    handleEdit = (id) => {
+        const { handleClassModal, fetchCurrentClass, fetchMasterTeacherList } = this.props;
+        fetchCurrentClass(id);
+        handleClassModal(true);
+        fetchMasterTeacherList();
+        this.setState({
+            isCreate: false,
+            showUploadList: true
+        });
+
+    };
+    removeFileList = () => {
+        const { saveFileList } = this.props;
+        saveFileList([]);
+    };
+    changeEditImg = (e) => {
+        const { saveFileList } = this.props;
+        if (e.fileList.length === 2) {
+            e.fileList.shift();
+        }
+        saveFileList(e.fileList);
+    };
     render() {
-        const { classList, classModalVisible, masterTeacherList } = this.props;
+        const { classList, classModalVisible, masterTeacherList, fileList, currentClass } = this.props;
+        const { isCreate } = this.state;
         const pagination = {
             defaultPageSize: 6
         };
-        const fileList = [];
         const uploadProps = {
             action: 'http://localhost:3389/api/addClass',
             listType: 'picture',
@@ -92,7 +125,14 @@ class ClassScreen extends Component {
             key: 'action',
             render: (text, record) => (
                 <span>
-                    <a href="javascript:;">编辑</a>
+                    <Popconfirm
+                        title="确认修改?"
+                        onConfirm={() => this.handleEdit(record.id)}
+                        okText="确认"
+                        cancelText="取消"
+                    >
+                            <a href="javascript:;">修改</a>
+                        </Popconfirm>
                     <Divider type="vertical" />
                     <Popconfirm
                         title="确认删除?"
@@ -121,7 +161,7 @@ class ClassScreen extends Component {
                     pagination={pagination}
                 />
                 <Modal
-                    title="创建班级"
+                    title={isCreate ? '创建班级' : '修改班级'}
                     visible={classModalVisible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
@@ -135,6 +175,7 @@ class ClassScreen extends Component {
                         >
                             {getFieldDecorator('grade', {
                                 rules: [{ required: true, message: '请选择年级!' }],
+                                initialValue: isCreate ? '' : (currentClass !== '' ? currentClass.grade : '')
                             })(
                                 <Select style={{ width: 120 }}>
                                     <Option value="一年级">一年级</Option>
@@ -152,6 +193,7 @@ class ClassScreen extends Component {
                         >
                             {getFieldDecorator('name', {
                                 rules: [{ required: true, message: '请输入班级名称!' }],
+                                initialValue: isCreate ? '' : (currentClass !== '' ? currentClass.name : '')
                             })(
                                 <Input
                                 />
@@ -163,16 +205,30 @@ class ClassScreen extends Component {
                         >
                             {getFieldDecorator('classImg', {
                                 rules: [{ required: true, message: '请选择班级头像!' }],
+                                initialValue: isCreate ? '' : (currentClass !== '' ? fileList : '')
                             })(
-                                <Upload
-                                    {...uploadProps}
-                                    onChange={this.changeImg}
-                                    showUploadList={this.state.showUploadList}
-                                >
-                                    <Button>
-                                        <Icon type="upload" /> 上传班级头像
-                                    </Button>
-                                </Upload>
+                                isCreate ?
+                                    <Upload
+                                        {...uploadProps}
+                                        onChange={this.changeImg}
+                                        showUploadList={this.state.showUploadList}
+                                    >
+                                        <Button>
+                                            <Icon type="upload" /> 上传班级头像
+                                        </Button>
+                                    </Upload> :
+                                    <Upload
+                                        {...uploadProps}
+                                        onChange={this.changeEditImg}
+                                        showUploadList={this.state.showUploadList}
+                                        fileList={fileList}
+                                        onRemove={this.removeFileList}
+                                    >
+                                        <Button>
+                                            <Icon type="upload" /> 修改班级头像
+                                        </Button>
+                                    </Upload>
+
                             )}
                         </FormItem>
                         <FormItem
@@ -181,6 +237,7 @@ class ClassScreen extends Component {
                         >
                             {getFieldDecorator('masterTeacher', {
                                 rules: [{ required: true, message: '请选择班主任!' }],
+                                initialValue: isCreate ? '' : (currentClass !== '' ? currentClass['teacher_name'] : '')
                             })(
                                 <Select style={{ width: 120 }}>
                                     {
@@ -204,6 +261,8 @@ function mapStateToProps(state) {
         classList: state.classModels.classList,
         classModalVisible: state.classModels.classModalVisible,
         masterTeacherList: state.classModels.masterTeacherList,
+        currentClass: state.classModels.currentClass,
+        fileList: state.classModels.fileList
     }
 }
 
@@ -223,7 +282,16 @@ function mapDispatchToProps(dispatch) {
         },
         deleteClass(id){
             dispatch({type: 'classModels/deleteClass', payload: { id } });
-        }
+        },
+        fetchCurrentClass(id){
+            dispatch({type: 'classModels/fetchCurrentClass', payload: { id } });
+        },
+        saveFileList(fileList){
+            dispatch({type: 'classModels/saveFileList', payload: { fileList } });
+        },
+        editClass(currentEditClass){
+            dispatch({type: 'classModels/editClass', payload: { currentEditClass } });
+        },
     }
 }
 

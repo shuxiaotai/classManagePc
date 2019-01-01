@@ -1,5 +1,6 @@
 import * as scheduleServices from '../services/schedule';
 import {message} from "antd/lib/index";
+import {getProtocol} from "../utils/getProtocol";
 
 export default {
 
@@ -7,7 +8,9 @@ export default {
 
     state: {
         scheduleList: [],
-        scheduleModalVisible: false
+        scheduleModalVisible: false,
+        currentSchedule: '',
+        fileList: [],
     },
 
     subscriptions: {
@@ -35,6 +38,27 @@ export default {
                 yield put({ type: 'fetchScheduleList' });
             }
         },
+        *fetchCurrentSchedule({ payload }, { call, put }) {
+            let data = yield call(scheduleServices.fetchCurrentSchedule, {id : payload.id});
+            yield put({ type: 'saveCurrentSchedule', payload: data });
+            let index = data.currentSchedule['img_url'].lastIndexOf('/');
+            let imgName = data.currentSchedule['img_url'].slice(index + 1);
+            const fileList = [{
+                uid: data.currentSchedule['img_url'],
+                name: imgName,
+                status: 'done',
+                thumbUrl: getProtocol() + data.currentSchedule['img_url']
+            }];
+            yield put({ type: 'saveFileList', payload: { fileList } });
+        },
+        *editSchedule({ payload }, { call, put }) {
+            let data = yield call(scheduleServices.editSchedule, {currentEditSchedule : payload.currentEditSchedule});
+            yield put({ type: 'handleScheduleModal', payload: data });
+            if (data.editScheduleSuccess) {
+                message.success('修改成功');
+                yield put({ type: 'fetchScheduleList' });
+            }
+        },
     },
 
     reducers: {
@@ -43,6 +67,12 @@ export default {
         },
         handleScheduleModal(state, action) {
             return { ...state, scheduleModalVisible: action.payload.addScheduleSuccess ? !action.payload.addScheduleSuccess : action.payload.scheduleModalVisible};
+        },
+        saveCurrentSchedule(state, action) {
+            return { ...state, currentSchedule: action.payload.currentSchedule };
+        },
+        saveFileList(state, action) {
+            return { ...state, fileList: action.payload.fileList };
         },
     },
 

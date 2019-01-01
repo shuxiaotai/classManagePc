@@ -16,7 +16,8 @@ class ScheduleScreen extends Component {
         super();
         this.state = {
             defaultTemplateCheck: true,
-            showUploadList: false
+            showUploadList: false,
+            isCreate: true,
         }
     }
     componentDidMount() {
@@ -29,7 +30,8 @@ class ScheduleScreen extends Component {
         this.props.form.resetFields();
         this.setState({
             defaultTemplateCheck: true,
-            showUploadList: false
+            showUploadList: false,
+            isCreate: true
         });
     };
     changeImg = (e) => {
@@ -41,13 +43,20 @@ class ScheduleScreen extends Component {
         });
     };
     handleOk = (e) => {
-        const { defaultTemplateCheck } = this.state;
-        const { addSchedule } = this.props;
+        const { defaultTemplateCheck, isCreate } = this.state;
+        const { addSchedule, currentSchedule, editSchedule } = this.props;
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                values.isDefault = defaultTemplateCheck;
-                values.scheduleImg = values.scheduleImg.file;
-                addSchedule(values);
+                if (isCreate) {
+                    values.isDefault = defaultTemplateCheck;
+                    values.scheduleImg = values.scheduleImg.file;
+                    addSchedule(values);
+                } else {
+                    values.id = currentSchedule.id;
+                    values.scheduleImg = values.scheduleImg[0] ? values.scheduleImg[0] : values.scheduleImg.file;
+                    editSchedule(values);
+                    this.props.form.resetFields();
+                }
             }
         });
     };
@@ -64,12 +73,33 @@ class ScheduleScreen extends Component {
         const { deleteSchedule } = this.props;
         deleteSchedule(id);
     };
+    handleEdit = (id) => {
+        const { handleScheduleModal, fetchCurrentSchedule } = this.props;
+        fetchCurrentSchedule(id);
+        handleScheduleModal(true);
+        this.setState({
+            isCreate: false,
+            showUploadList: true
+        });
+
+    };
+    removeFileList = () => {
+        const { saveFileList } = this.props;
+        saveFileList([]);
+    };
+    changeEditImg = (e) => {
+        const { saveFileList } = this.props;
+        if (e.fileList.length === 2) {
+            e.fileList.shift();
+        }
+        saveFileList(e.fileList);
+    };
     render() {
-        const { scheduleList, scheduleModalVisible } = this.props;
+        const { scheduleList, scheduleModalVisible, currentSchedule, fileList } = this.props;
         const { getFieldDecorator } = this.props.form;
-        const fileList = [];
+        const { isCreate } = this.state;
         const uploadProps = {
-            action: 'http://localhost:3389/api/addSchedule',
+            action: `${isCreate ? 'http://localhost:3389/api/addSchedule' : 'http://localhost:3389/api/editSchedule'}`,
             listType: 'picture',
             defaultFileList: [...fileList],
         };
@@ -96,7 +126,14 @@ class ScheduleScreen extends Component {
             key: 'action',
             render: (text, record) => (
                 <span>
-                    <a href="javascript:;">编辑</a>
+                     <Popconfirm
+                         title="确认修改?"
+                         onConfirm={() => this.handleEdit(record.id)}
+                         okText="确认"
+                         cancelText="取消"
+                     >
+                        <a href="javascript:;">修改</a>
+                    </Popconfirm>
                     <Divider type="vertical" />
                     <Popconfirm
                         title="确认删除?"
@@ -125,7 +162,7 @@ class ScheduleScreen extends Component {
                     pagination={pagination}
                 />
                 <Modal
-                    title="创建日程"
+                    title={isCreate ? '创建日程' : '修改日程'}
                     visible={scheduleModalVisible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
@@ -139,6 +176,7 @@ class ScheduleScreen extends Component {
                         >
                             {getFieldDecorator('scheduleName', {
                                 rules: [{ required: true, message: '请输入日程名称!' }],
+                                initialValue: isCreate ? '' : (currentSchedule !== '' ? currentSchedule.name : '')
                             })(
                                 <Input
                                 />
@@ -150,27 +188,43 @@ class ScheduleScreen extends Component {
                         >
                             {getFieldDecorator('scheduleImg', {
                                 rules: [{ required: true, message: '请选择日程头像!' }],
+                                initialValue: isCreate ? '' : (currentSchedule !== '' ? fileList : '')
                             })(
-                                <Upload
-                                    {...uploadProps}
-                                    onChange={this.changeImg}
-                                    showUploadList={this.state.showUploadList}
+                                isCreate ?
+                                    <Upload
+                                        {...uploadProps}
+                                        onChange={this.changeImg}
+                                        showUploadList={this.state.showUploadList}
+                                    >
+                                        <Button>
+                                            <Icon type="upload" /> 上传日程头像
+                                        </Button>
+                                    </Upload> :
+                                    <Upload
+                                        {...uploadProps}
+                                        onChange={this.changeEditImg}
+                                        showUploadList={this.state.showUploadList}
+                                        fileList={fileList}
+                                        onRemove={this.removeFileList}
+                                    >
+                                        <Button>
+                                            <Icon type="upload" /> 修改日程头像
+                                        </Button>
+                                    </Upload>
+                            )}
+                        </FormItem>
+                        {
+                            isCreate ?
+                                <FormItem
+                                    label="默认日程"
+                                    {...formItemLayout}
                                 >
-                                    <Button>
-                                        <Icon type="upload" /> 上传日程头像
-                                    </Button>
-                                </Upload>
-                            )}
-                        </FormItem>
-                        <FormItem
-                            label="默认日程"
-                            {...formItemLayout}
-                        >
-                            {getFieldDecorator('isDefault', {
-                            })(
-                                <Switch defaultChecked onChange={this.onChange} />
-                            )}
-                        </FormItem>
+                                    {getFieldDecorator('isDefault', {
+                                    })(
+                                        <Switch defaultChecked onChange={this.onChange} />
+                                    )}
+                                </FormItem> : null
+                        }
                     </Form>
                 </Modal>
             </div>
@@ -180,7 +234,9 @@ class ScheduleScreen extends Component {
 function mapStateToProps(state) {
     return {
         scheduleList: state.schedule.scheduleList,
-        scheduleModalVisible: state.schedule.scheduleModalVisible
+        scheduleModalVisible: state.schedule.scheduleModalVisible,
+        currentSchedule: state.schedule.currentSchedule,
+        fileList: state.schedule.fileList
     }
 }
 
@@ -197,7 +253,16 @@ function mapDispatchToProps(dispatch) {
         },
         deleteSchedule(id){
             dispatch({type: 'schedule/deleteSchedule', payload: { id } });
-        }
+        },
+        fetchCurrentSchedule(id){
+            dispatch({type: 'schedule/fetchCurrentSchedule', payload: { id } });
+        },
+        saveFileList(fileList){
+            dispatch({type: 'schedule/saveFileList', payload: { fileList } });
+        },
+        editSchedule(currentEditSchedule){
+            dispatch({type: 'schedule/editSchedule', payload: { currentEditSchedule } });
+        },
     }
 }
 

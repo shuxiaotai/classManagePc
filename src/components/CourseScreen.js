@@ -15,7 +15,8 @@ class CourseScreen extends Component {
         super();
         this.state = {
             defaultTemplateCheck: true,
-            showUploadList: false
+            showUploadList: false,
+            isCreate: true,
         }
     }
     componentDidMount() {
@@ -40,13 +41,20 @@ class CourseScreen extends Component {
         });
     };
     handleOk = (e) => {
-        const { defaultTemplateCheck } = this.state;
-        const { addCourse } = this.props;
+        const { defaultTemplateCheck, isCreate } = this.state;
+        const { addCourse, currentCourse, editCourse } = this.props;
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                values.isDefault = defaultTemplateCheck;
-                values.courseImg = values.courseImg.file;
-                addCourse(values);
+                if (isCreate) {
+                    values.isDefault = defaultTemplateCheck;
+                    values.courseImg = values.courseImg.file;
+                    addCourse(values);
+                } else {
+                    values.id = currentCourse.id;
+                    values.courseImg = values.courseImg[0] ? values.courseImg[0] : values.courseImg.file;
+                    editCourse(values);
+                    this.props.form.resetFields();
+                }
             }
         });
     };
@@ -63,10 +71,31 @@ class CourseScreen extends Component {
         const { deleteCourse } = this.props;
         deleteCourse(id);
     };
+    handleEdit = (id) => {
+        const { handleCourseModal, fetchCurrentCourse } = this.props;
+        fetchCurrentCourse(id);
+        handleCourseModal(true);
+        this.setState({
+            isCreate: false,
+            showUploadList: true
+        });
+
+    };
+    removeFileList = () => {
+        const { saveFileList } = this.props;
+        saveFileList([]);
+    };
+    changeEditImg = (e) => {
+        const { saveFileList } = this.props;
+        if (e.fileList.length === 2) {
+            e.fileList.shift();
+        }
+        saveFileList(e.fileList);
+    };
     render() {
-        const { courseList, courseModalVisible } = this.props;
+        const { courseList, courseModalVisible, fileList, currentCourse } = this.props;
         const { getFieldDecorator } = this.props.form;
-        const fileList = [];
+        const { isCreate } = this.state;
         const uploadProps = {
             action: 'http://localhost:3389/api/addCourse',
             listType: 'picture',
@@ -95,7 +124,14 @@ class CourseScreen extends Component {
             key: 'action',
             render: (text, record) => (
                 <span>
-                    <a href="javascript:;">编辑</a>
+                     <Popconfirm
+                         title="确认修改?"
+                         onConfirm={() => this.handleEdit(record.id)}
+                         okText="确认"
+                         cancelText="取消"
+                     >
+                        <a href="javascript:;">修改</a>
+                    </Popconfirm>
                     <Divider type="vertical" />
                     <Popconfirm
                         title="确认删除?"
@@ -123,7 +159,7 @@ class CourseScreen extends Component {
                     pagination={pagination}
                 />
                 <Modal
-                    title="创建课程"
+                    title={isCreate ? '创建课程' : '修改课程'}
                     visible={courseModalVisible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
@@ -137,6 +173,7 @@ class CourseScreen extends Component {
                         >
                             {getFieldDecorator('courseName', {
                                 rules: [{ required: true, message: '请输入课程名称!' }],
+                                initialValue: isCreate ? '' : (currentCourse !== '' ? currentCourse.name : '')
                             })(
                                 <Input
                                 />
@@ -148,27 +185,43 @@ class CourseScreen extends Component {
                         >
                             {getFieldDecorator('courseImg', {
                                 rules: [{ required: true, message: '请选择课程头像!' }],
+                                initialValue: isCreate ? '' : (currentCourse !== '' ? fileList : '')
                             })(
-                                <Upload
-                                    {...uploadProps}
-                                    onChange={this.changeImg}
-                                    showUploadList={this.state.showUploadList}
+                                isCreate ?
+                                    <Upload
+                                        {...uploadProps}
+                                        onChange={this.changeImg}
+                                        showUploadList={this.state.showUploadList}
+                                    >
+                                        <Button>
+                                            <Icon type="upload" /> 上传课程头像
+                                        </Button>
+                                    </Upload> :
+                                    <Upload
+                                        {...uploadProps}
+                                        onChange={this.changeEditImg}
+                                        showUploadList={this.state.showUploadList}
+                                        fileList={fileList}
+                                        onRemove={this.removeFileList}
+                                    >
+                                        <Button>
+                                            <Icon type="upload" /> 修改课程头像
+                                        </Button>
+                                    </Upload>
+                            )}
+                        </FormItem>
+                        {
+                            isCreate ?
+                                <FormItem
+                                    label="默认课程"
+                                    {...formItemLayout}
                                 >
-                                    <Button>
-                                        <Icon type="upload" /> 上传课程头像
-                                    </Button>
-                                </Upload>
-                            )}
-                        </FormItem>
-                        <FormItem
-                            label="默认课程"
-                            {...formItemLayout}
-                        >
-                            {getFieldDecorator('isDefault', {
-                            })(
-                                <Switch defaultChecked onChange={this.onChange} />
-                            )}
-                        </FormItem>
+                                    {getFieldDecorator('isDefault', {
+                                    })(
+                                        <Switch defaultChecked onChange={this.onChange} />
+                                    )}
+                                </FormItem> : null
+                        }
                     </Form>
                 </Modal>
             </div>
@@ -178,7 +231,9 @@ class CourseScreen extends Component {
 function mapStateToProps(state) {
     return {
         courseList: state.course.courseList,
-        courseModalVisible: state.course.courseModalVisible
+        courseModalVisible: state.course.courseModalVisible,
+        currentCourse: state.course.currentCourse,
+        fileList: state.course.fileList
     }
 }
 
@@ -195,7 +250,16 @@ function mapDispatchToProps(dispatch) {
         },
         deleteCourse(id){
             dispatch({type: 'course/deleteCourse', payload: { id } });
-        }
+        },
+        fetchCurrentCourse(id){
+            dispatch({type: 'course/fetchCurrentCourse', payload: { id } });
+        },
+        saveFileList(fileList){
+            dispatch({type: 'course/saveFileList', payload: { fileList } });
+        },
+        editCourse(currentEditCourse){
+            dispatch({type: 'course/editCourse', payload: { currentEditCourse } });
+        },
     }
 }
 

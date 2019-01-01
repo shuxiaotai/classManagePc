@@ -23,3 +23,21 @@ export function deleteSchedule( { id }) {
         })
     });
 }
+
+export function fetchCurrentSchedule( { id }) {
+    return request('/api/currentSchedule', {
+        method: 'post',
+        body: JSON.stringify({
+            scheduleId: id
+        })
+    });
+}
+
+export function editSchedule( { currentEditSchedule }) {
+    return request('/api/editSchedule', {
+        method: 'post',
+        body: JSON.stringify({
+            currentEditSchedule: currentEditSchedule
+        })
+    });
+}

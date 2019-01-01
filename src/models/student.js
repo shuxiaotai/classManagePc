@@ -1,5 +1,6 @@
 import * as studentServices from '../services/student';
 import {message} from "antd/lib/index";
+import {getProtocol} from "../utils/getProtocol";
 
 export default {
 
@@ -7,7 +8,9 @@ export default {
 
     state: {
         studentList: [],
-        studentModalVisible: false
+        studentModalVisible: false,
+        currentStudent: '',
+        fileList: [],
     },
 
     subscriptions: {
@@ -18,6 +21,8 @@ export default {
     effects: {
         *fetchStudentList({ payload }, { call, put }) {
             let data = yield call(studentServices.fetchStudentList);
+            console.log('====');
+            console.log(data);
             yield put({ type: 'saveStudentList', payload: data });
         },
         *addStudent({ payload }, { call, put }) {
@@ -35,6 +40,27 @@ export default {
                 yield put({ type: 'fetchStudentList' });
             }
         },
+        *fetchCurrentStudent({ payload }, { call, put }) {
+            let data = yield call(studentServices.fetchCurrentStudent, {id : payload.id});
+            yield put({ type: 'saveCurrentStudent', payload: data });
+            let index = data.currentStudent['avatar_url'].lastIndexOf('/');
+            let imgName = data.currentStudent['avatar_url'].slice(index + 1);
+            const fileList = [{
+                uid: data.currentStudent['avatar_url'],
+                name: imgName,
+                status: 'done',
+                thumbUrl: getProtocol() + data.currentStudent['avatar_url']
+            }];
+            yield put({ type: 'saveFileList', payload: { fileList } });
+        },
+        *editStudent({ payload }, { call, put }) {
+            let data = yield call(studentServices.editStudent, {currentEditStudent : payload.currentEditStudent});
+            yield put({ type: 'handleStudentModal', payload: data });
+            if (data.editStudentSuccess) {
+                message.success('修改成功');
+                yield put({ type: 'fetchStudentList' });
+            }
+        },
     },
 
     reducers: {
@@ -43,6 +69,12 @@ export default {
         },
         handleStudentModal(state, action) {
             return { ...state, studentModalVisible: action.payload.addStudentSuccess ? !action.payload.addStudentSuccess : action.payload.studentModalVisible};
+        },
+        saveCurrentStudent(state, action) {
+            return { ...state, currentStudent: action.payload.currentStudent };
+        },
+        saveFileList(state, action) {
+            return { ...state, fileList: action.payload.fileList };
         },
     },
 

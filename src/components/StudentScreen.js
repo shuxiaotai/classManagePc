@@ -14,7 +14,8 @@ class StudentScreen extends Component {
     constructor() {
         super();
         this.state = {
-            showUploadList: false
+            showUploadList: false,
+            isCreate: true,
         }
     }
     componentDidMount() {
@@ -39,11 +40,22 @@ class StudentScreen extends Component {
         });
     };
     handleOk = (e) => {
-        const { addStudent } = this.props;
+        const { addStudent, currentStudent, editStudent } = this.props;
+        const { isCreate } = this.state;
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                values.studentImg = values.studentImg.file;
-                addStudent(values);
+                if (isCreate) {
+                    values.studentImg = values.studentImg.file;
+                    addStudent(values);
+                }else {
+                    values.id = currentStudent.id;
+                    if (values.studentClass === (currentStudent['class_grade'] + currentStudent['class_name'])){
+                        values.studentClass = currentStudent['class_id'].toString();
+                    }
+                    values.studentImg = values.studentImg[0] ? values.studentImg[0] : values.studentImg.file;
+                    editStudent(values);
+                    this.props.form.resetFields();
+                }
             }
         });
     };
@@ -53,15 +65,38 @@ class StudentScreen extends Component {
     };
     handleChange = (value) => {
         console.log(`selected ${value}`);
+        console.log(JSON.stringify(value));
     };
     handleDelete = (id) => {
         const { deleteStudent } = this.props;
         deleteStudent(id);
     };
+    handleEdit = (id) => {
+        const { handleStudentModal, fetchCurrentStudent, fetchClassList } = this.props;
+        fetchCurrentStudent(id);
+        handleStudentModal(true);
+        fetchClassList();
+        this.setState({
+            isCreate: false,
+            showUploadList: true
+        });
+
+    };
+    removeFileList = () => {
+        const { saveFileList } = this.props;
+        saveFileList([]);
+    };
+    changeEditImg = (e) => {
+        const { saveFileList } = this.props;
+        if (e.fileList.length === 2) {
+            e.fileList.shift();
+        }
+        saveFileList(e.fileList);
+    };
     render() {
-        const { studentList, studentModalVisible, classList } = this.props;
+        const { studentList, studentModalVisible, classList, currentStudent, fileList } = this.props;
         const { getFieldDecorator } = this.props.form;
-        const fileList = [];
+        const { isCreate } = this.state;
         const uploadProps = {
             action: 'http://localhost:3389/api/addStudent',
             listType: 'picture',
@@ -96,7 +131,14 @@ class StudentScreen extends Component {
                 key: 'action',
                 render: (text, record) => (
                     <span>
-                        <a href="javascript:;">编辑</a>
+                        <Popconfirm
+                            title="确认修改?"
+                            onConfirm={() => this.handleEdit(record.id)}
+                            okText="确认"
+                            cancelText="取消"
+                        >
+                            <a href="javascript:;">修改</a>
+                        </Popconfirm>
                         <Divider type="vertical" />
                         <Popconfirm
                             title="确认删除?"
@@ -126,7 +168,7 @@ class StudentScreen extends Component {
                     pagination={pagination}
                 />
                 <Modal
-                    title="创建学生"
+                    title={isCreate ? '创建学生' : '修改学生'}
                     visible={studentModalVisible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
@@ -140,6 +182,7 @@ class StudentScreen extends Component {
                         >
                             {getFieldDecorator('studentName', {
                                 rules: [{ required: true, message: '请输入学生姓名!' }],
+                                initialValue: isCreate ? '' : (currentStudent !== '' ? currentStudent.name : '')
                             })(
                                 <Input
                                 />
@@ -151,17 +194,30 @@ class StudentScreen extends Component {
                         >
                             {getFieldDecorator('studentImg', {
                                 rules: [{ required: true, message: '请选择学生头像!' }],
+                                initialValue: isCreate ? '' : (currentStudent !== '' ? fileList : '')
                             })(
-                                <Upload
-                                    {...uploadProps}
-                                    onChange={this.changeImg}
-                                    showUploadList={this.state.showUploadList}
-                                >
-                                    <Button>
-                                        <Icon type="upload" /> 上传学生头像
-                                    </Button>
-                                </Upload>
-                            )}
+                                isCreate ?
+                                    <Upload
+                                        {...uploadProps}
+                                        onChange={this.changeImg}
+                                        showUploadList={this.state.showUploadList}
+                                    >
+                                        <Button>
+                                            <Icon type="upload" /> 上传学生头像
+                                        </Button>
+                                    </Upload> :
+                                    <Upload
+                                        {...uploadProps}
+                                        onChange={this.changeEditImg}
+                                        showUploadList={this.state.showUploadList}
+                                        fileList={fileList}
+                                        onRemove={this.removeFileList}
+                                        >
+                                        <Button>
+                                            <Icon type="upload" /> 修改学生头像
+                                        </Button>
+                                    </Upload>
+                                )}
                         </FormItem>
                         <FormItem
                             label="选择班级"
@@ -169,8 +225,13 @@ class StudentScreen extends Component {
                         >
                             {getFieldDecorator('studentClass', {
                                 rules: [{ required: true, message: '请选择班级!' }],
+                                initialValue: isCreate ? '' : (currentStudent !== '' ? (currentStudent['class_grade'] + currentStudent['class_name']): '')
                             })(
-                                <Select style={{ width: 120 }} onChange={this.handleChange}>
+                                <Select
+                                    style={{ width: 120 }}
+                                    onChange={this.handleChange}
+                                    // labelInValue
+                                >
                                     {
                                         classList.map((item, index) => {
                                             return(
@@ -191,7 +252,9 @@ function mapStateToProps(state) {
     return {
         studentList: state.student.studentList,
         studentModalVisible: state.student.studentModalVisible,
-        classList: state.classModels.classList
+        classList: state.classModels.classList,
+        currentStudent: state.student.currentStudent,
+        fileList: state.student.fileList
     }
 }
 
@@ -211,7 +274,16 @@ function mapDispatchToProps(dispatch) {
         },
         deleteStudent(id){
             dispatch({type: 'student/deleteStudent', payload: { id } });
-        }
+        },
+        fetchCurrentStudent(id){
+            dispatch({type: 'student/fetchCurrentStudent', payload: { id } });
+        },
+        saveFileList(fileList){
+            dispatch({type: 'student/saveFileList', payload: { fileList } });
+        },
+        editStudent(currentEditStudent){
+            dispatch({type: 'student/editStudent', payload: { currentEditStudent } });
+        },
     }
 }
 
