@@ -28,7 +28,8 @@ class StudentScreen extends Component {
         this.props.form.resetFields();
         fetchClassList();
         this.setState({
-            showUploadList: false
+            showUploadList: false,
+            isCreate: true
         });
     };
     changeImg = (e) => {

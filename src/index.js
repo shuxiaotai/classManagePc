@@ -13,6 +13,7 @@ app.model(require('./models/schedule').default);
 app.model(require('./models/course').default);
 app.model(require('./models/classModels').default);
 app.model(require('./models/student').default);
+app.model(require('./models/login').default);
 
 // 4. Router
 app.router(require('./router').default);

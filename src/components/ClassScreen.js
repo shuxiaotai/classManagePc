@@ -60,7 +60,8 @@ class ClassScreen extends Component {
         this.props.form.resetFields();
         fetchMasterTeacherList();
         this.setState({
-            showUploadList: false
+            showUploadList: false,
+            isCreate: true
         });
     };
     handleDelete = (id) => {

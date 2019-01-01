@@ -29,7 +29,8 @@ class CourseScreen extends Component {
         this.props.form.resetFields();
         this.setState({
             defaultTemplateCheck: true,
-            showUploadList: false
+            showUploadList: false,
+            isCreate: true
         });
     };
     changeImg = (e) => {

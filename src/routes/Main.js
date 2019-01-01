@@ -6,15 +6,26 @@ import ProjectScreen from "../components/ScheduleScreen";
 import CourseScreen from "../components/CourseScreen";
 import ClassScreen from "../components/ClassScreen";
 import StudentScreen from "../components/StudentScreen";
+import { connect } from 'dva';
+import jwt_decode from "jwt-decode";
+
 
 const { Content, Footer, Sider } = Layout;
 
 class Main extends React.Component {
     state = {
       collapsed: false,
-      selectKey: '4',
+      selectKey: '1',
     };
-
+    componentDidMount() {
+        const { checkLogin, history } = this.props;
+        let token = localStorage.getItem('token');
+        if (!token) {
+            history.push('/');
+        } else {
+            checkLogin(token);
+        }
+    }
     onCollapse = (collapsed) => {
         this.setState({ collapsed });
     };
@@ -48,6 +59,11 @@ class Main extends React.Component {
         this.setState({
           selectKey: key
         });
+    };
+    toLogout = () => {
+        const { history } = this.props;
+        localStorage.removeItem('token');
+        history.push('/');
     };
     render() {
         const { selectKey, collapsed } = this.state;
@@ -97,8 +113,11 @@ class Main extends React.Component {
                         >
                             {this.getPathName()}
                             <div className={styles.userContainer}>
-                                <span className={styles.userText}>欢迎您 admin </span>
-                                <Button type="primary">
+                                <span className={styles.userText}>欢迎您 {jwt_decode(localStorage.getItem('token')).username} </span>
+                                <Button
+                                    type="primary"
+                                    onClick={this.toLogout}
+                                >
                                     退出
                                 </Button>
                             </div>
@@ -130,5 +149,12 @@ class Main extends React.Component {
         );
     }
 }
+const mapDispatchToProps = (dispatch) => {
+    return {
+        checkLogin(token, history){
+            dispatch({type: 'login/checkLogin', payload: { token, history } });
+        }
+    }
+};
 
-export default Main;
+export default connect(null, mapDispatchToProps)(Main);
