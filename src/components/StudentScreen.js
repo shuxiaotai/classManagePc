@@ -99,7 +99,7 @@ class StudentScreen extends Component {
         const { getFieldDecorator } = this.props.form;
         const { isCreate } = this.state;
         const uploadProps = {
-            action: 'http://localhost:3389/api/addStudent',
+            action: `${getProtocol()}/api/addStudent`,
             listType: 'picture',
             defaultFileList: [...fileList],
         };

@@ -97,7 +97,7 @@ class ClassScreen extends Component {
             defaultPageSize: 6
         };
         const uploadProps = {
-            action: 'http://localhost:3389/api/addClass',
+            action: `${getProtocol()}/api/addClass`,
             listType: 'picture',
             defaultFileList: [...fileList],
         };

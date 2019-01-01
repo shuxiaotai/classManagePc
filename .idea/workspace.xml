@@ -2,17 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f9be5caf-bfb0-425d-9205-aff3a2080e5d" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/models/login.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/services/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/ClassScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ClassScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/CourseScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/CourseScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ScheduleScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ScheduleScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/StudentScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/StudentScreen.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/Main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/login.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/login.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/TemplateScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/TemplateScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/getProtocol.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/getProtocol.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -26,11 +21,48 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ClassScreen.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TemplateScreen.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/components/TemplateScreen.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="406">
+              <caret line="115" column="88" selection-start-line="115" selection-start-column="88" selection-end-line="115" selection-end-column="88" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+                <element signature="e#2183#2200#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClassScreen.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/ClassScreen.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="63" column="26" selection-start-line="63" selection-start-column="26" selection-end-line="63" selection-end-column="26" />
+            <state relative-caret-position="487">
+              <caret line="99" column="36" selection-start-line="99" selection-start-column="36" selection-end-line="99" selection-end-column="36" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CourseScreen.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/CourseScreen.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="435">
+              <caret line="97" column="22" selection-start-line="97" selection-start-column="22" selection-end-line="97" selection-end-column="22" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScheduleScreen.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/components/ScheduleScreen.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="356">
+              <caret line="101" column="88" selection-start-line="101" selection-start-column="88" selection-end-line="101" selection-end-column="88" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -63,14 +95,15 @@
       <find>fetchCurrentCLass</find>
       <find>handleClasstModal</find>
       <find>handleClassModal</find>
+      <find>localhost</find>
     </findStrings>
     <replaceStrings>
       <replace>img_url</replace>
       <replace>score</replace>
     </replaceStrings>
     <dirStrings>
-      <dir>$PROJECT_DIR$/src</dir>
       <dir>$PROJECT_DIR$/src/components</dir>
+      <dir>$PROJECT_DIR$/src</dir>
     </dirStrings>
   </component>
   <component name="Git.Settings">
@@ -98,13 +131,10 @@
         <option value="$PROJECT_DIR$/src/routes/main.css" />
         <option value="$PROJECT_DIR$/src/components/index.css" />
         <option value="$PROJECT_DIR$/src/utils/request.js" />
-        <option value="$PROJECT_DIR$/src/utils/getProtocol.js" />
         <option value="$PROJECT_DIR$/src/services/template.js" />
         <option value="$PROJECT_DIR$/src/models/template.js" />
         <option value="$PROJECT_DIR$/src/services/schedule.js" />
         <option value="$PROJECT_DIR$/src/models/schedule.js" />
-        <option value="$PROJECT_DIR$/src/components/TemplateScreen.js" />
-        <option value="$PROJECT_DIR$/src/components/ScheduleScreen.js" />
         <option value="$PROJECT_DIR$/src/services/course.js" />
         <option value="$PROJECT_DIR$/src/models/course.js" />
         <option value="$PROJECT_DIR$/src/services/student.js" />
@@ -116,10 +146,13 @@
         <option value="$PROJECT_DIR$/src/routes/Login.js" />
         <option value="$PROJECT_DIR$/src/services/login.js" />
         <option value="$PROJECT_DIR$/src/models/login.js" />
-        <option value="$PROJECT_DIR$/src/components/StudentScreen.js" />
         <option value="$PROJECT_DIR$/src/routes/Main.js" />
-        <option value="$PROJECT_DIR$/src/components/CourseScreen.js" />
+        <option value="$PROJECT_DIR$/src/utils/getProtocol.js" />
+        <option value="$PROJECT_DIR$/src/components/StudentScreen.js" />
         <option value="$PROJECT_DIR$/src/components/ClassScreen.js" />
+        <option value="$PROJECT_DIR$/src/components/CourseScreen.js" />
+        <option value="$PROJECT_DIR$/src/components/ScheduleScreen.js" />
+        <option value="$PROJECT_DIR$/src/components/TemplateScreen.js" />
       </list>
     </option>
   </component>
@@ -266,12 +299,12 @@
       <workItem from="1545975913865" duration="424000" />
       <workItem from="1545993394871" duration="531000" />
       <workItem from="1546058848542" duration="28466000" />
-      <workItem from="1546313558888" duration="23735000" />
+      <workItem from="1546313558888" duration="24502000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="84294000" />
+    <option name="totallyTimeSpent" value="85061000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="6" />
@@ -540,13 +573,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/getProtocol.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="28" selection-start-line="3" selection-start-column="28" selection-end-line="3" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/antd/lib/upload/Upload.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
@@ -560,17 +586,6 @@
           <caret line="12" column="21" lean-forward="true" selection-start-line="11" selection-start-column="8" selection-end-line="12" selection-end-column="21" />
           <folding>
             <element signature="e#0#57#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/TemplateScreen.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="62" column="6" lean-forward="true" selection-start-line="56" selection-start-column="4" selection-end-line="62" selection-end-column="6" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-            <element signature="e#2299#2316#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -695,26 +710,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/CourseScreen.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="26" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/ScheduleScreen.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="33" column="26" lean-forward="true" selection-start-line="33" selection-start-column="12" selection-end-line="33" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/routes/Main.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -725,10 +720,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/getProtocol.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="2" lean-forward="true" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/StudentScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" column="26" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
+        <state relative-caret-position="327">
+          <caret line="97" column="43" selection-start-line="97" selection-start-column="43" selection-end-line="97" selection-end-column="43" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
@@ -737,10 +739,41 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/ClassScreen.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="63" column="26" selection-start-line="63" selection-start-column="26" selection-end-line="63" selection-end-column="26" />
+        <state relative-caret-position="487">
+          <caret line="99" column="36" selection-start-line="99" selection-start-column="36" selection-end-line="99" selection-end-column="36" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/CourseScreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="97" column="22" selection-start-line="97" selection-start-column="22" selection-end-line="97" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/ScheduleScreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="356">
+          <caret line="101" column="88" selection-start-line="101" selection-start-column="88" selection-end-line="101" selection-end-column="88" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/TemplateScreen.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="115" column="88" selection-start-line="115" selection-start-column="88" selection-end-line="115" selection-end-column="88" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#2183#2200#0" expanded="true" />
           </folding>
         </state>
       </provider>

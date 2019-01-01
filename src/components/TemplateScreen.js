@@ -113,7 +113,7 @@ class TemplateScreen extends Component {
         const { templateType, isCreate } = this.state;
         const { getFieldDecorator } = this.props.form;
         const uploadProps = {
-            action: `${isCreate ? 'http://localhost:3389/api/addTemplate' : 'http://localhost:3389/api/editTemplate'}`,
+            action: `${isCreate ? `${getProtocol()}/api/addTemplate` : `${getProtocol()}/api/editTemplate`}`,
             listType: 'picture',
             defaultFileList: [...fileList],
         };

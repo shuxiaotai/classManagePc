@@ -99,7 +99,7 @@ class ScheduleScreen extends Component {
         const { getFieldDecorator } = this.props.form;
         const { isCreate } = this.state;
         const uploadProps = {
-            action: `${isCreate ? 'http://localhost:3389/api/addSchedule' : 'http://localhost:3389/api/editSchedule'}`,
+            action: `${isCreate ? `${getProtocol()}/api/addSchedule` : `${getProtocol()}/api/editSchedule`}`,
             listType: 'picture',
             defaultFileList: [...fileList],
         };
