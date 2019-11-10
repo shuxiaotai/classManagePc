@@ -1,8 +1,8 @@
-import fetch from 'dva/fetch';
-import {getProtocol} from "../utils/getProtocol";
+import fetch from "dva/fetch";
+import { getProtocol } from "../utils/getProtocol";
 
 function parseJSON(response) {
-    return response.json();
+  return response.json();
 }
 
 function checkStatus(response) {
@@ -23,18 +23,18 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
-    url = getProtocol() + url;
-    options = {
-        ...options,
-        headers: {
-            'Content-Type': 'application/json; charset=utf-8'
-        },
-    };
-    return fetch(url, options)
-        .then(checkStatus)
-        .then(parseJSON)
-        .then(data => {
-            return data.data;
-        })
-        .catch(err => ({ err }));
+  url = getProtocol() + url;
+  options = {
+    ...options,
+    headers: {
+      "Content-Type": "application/json; charset=utf-8"
+    }
+  };
+  return fetch(url, options)
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(data => {
+      return data.data;
+    })
+    .catch(err => ({ err }));
 }
