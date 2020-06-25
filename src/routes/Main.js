@@ -128,7 +128,7 @@ class Main extends React.Component {
             </div>
           </Content>
           <Footer style={{ textAlign: "center" }}>
-            课堂管理 ©2018 Created by shuxiaotai
+            课堂管理 ©2020 Created by shuxiaotai <a onClick={() => window.open('http://www.beian.miit.gov.cn', '_blank')}>浙ICP备18045486号</a>
           </Footer>
         </Layout>
       </Layout>
